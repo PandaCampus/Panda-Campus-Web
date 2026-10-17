@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PANDA CAMPUS · 校园</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- 品牌字体待确认（需求板 R-03），暂用 Poppins；数字暂用 Inter；中文暂用 Noto Sans SC 代替 PingFang SC -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700;800;900&family=Poppins:wght@700;800&family=Montserrat:wght@800;900&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="device" id="device">
+
+    <!-- 仿真层：iPhone 状态栏与灵动岛，仅用于桌面预览与对照截图，不属于小程序内容（?chrome=0 关闭） -->
+    <div class="sim-statusbar" aria-hidden="true">
+      <span class="sim-time">9:41</span>
+      <span class="sim-island"></span>
+      <span class="sim-icons">
+        <svg class="sim-signal" viewBox="0 0 19 12"><rect x="0" y="8" width="3.2" height="4" rx="1"/><rect x="5.2" y="5.5" width="3.2" height="6.5" rx="1"/><rect x="10.4" y="3" width="3.2" height="9" rx="1"/><rect x="15.6" y="0" width="3.2" height="12" rx="1"/></svg>
+        <svg class="sim-wifi" viewBox="0 0 17 12"><path d="M8.5 2.3c2.4 0 4.6.9 6.3 2.5l1.3-1.3A10.7 10.7 0 0 0 8.5.4 10.7 10.7 0 0 0 .9 3.5l1.3 1.3a8.9 8.9 0 0 1 6.3-2.5Zm0 3.7c1.4 0 2.7.5 3.7 1.4l1.3-1.3a7.1 7.1 0 0 0-10 0l1.3 1.3c1-.9 2.3-1.4 3.7-1.4Zm0 3.6c-.5 0-1 .2-1.3.5l1.3 1.6 1.3-1.6c-.3-.3-.8-.5-1.3-.5Z"/></svg>
+        <svg class="sim-battery" viewBox="0 0 28 13"><rect x=".5" y=".5" width="24" height="12" rx="3.6" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="21" height="9" rx="2.2"/><path d="M26 4.4v4.2c.8-.3 1.4-1.1 1.4-2.1s-.6-1.8-1.4-2.1Z" opacity=".45"/></svg>
+      </span>
+    </div>
+
+    <!-- 校园 Tab -->
+    <main class="page page-campus" data-page="campus">
+      <header class="campus-header">
+        <!-- 第 1 层：品牌 + 微信原生胶囊 -->
+        <div class="row-brand">
+          <h1 class="brand"><span class="brand-panda">PANDA</span> <span class="brand-campus">CAMPUS</span></h1>
+          <!-- 占位：小程序运行时由微信提供原生胶囊，此处不自画（PRD 3.1） -->
+          <div class="capsule-slot" title="微信原生胶囊（运行时提供）">
+            <span>微信原生胶囊</span>
+          </div>
+        </div>
+
+        <!-- 第 2 层：主体与沟通 -->
+        <div class="row-entity">
+          <button class="avatar" type="button" aria-label="我的主体主页">
+            <span class="ph-label">缺：头像</span>
+          </button>
+          <span class="entity-name">林同学</span>
+          <div class="entity-actions">
+            <button class="hbtn hbtn-reach" type="button">
+              <svg class="ic-nfc" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2 7V4.5A2.5 2.5 0 0 1 4.5 2H7M17 2h2.5A2.5 2.5 0 0 1 22 4.5V7M22 17v2.5a2.5 2.5 0 0 1-2.5 2.5H17M7 22H4.5A2.5 2.5 0 0 1 2 19.5V17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <text x="12" y="14.6" text-anchor="middle">NFC</text>
+              </svg>
+              <span>触达</span>
+            </button>
+            <button class="hbtn hbtn-msg" type="button">
+              <svg class="ic-mail" viewBox="0 0 20 16" aria-hidden="true">
+                <rect x="1" y="1" width="18" height="14" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.9"/>
+                <path d="m1.8 2.4 8.2 6.4 8.2-6.4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+              </svg>
+              <span>消息</span>
+              <i class="unread-dot" aria-label="有未读"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 第 3 层：搜索 + 筛选 / 地点 -->
+        <div class="row-tools">
+          <label class="search">
+            <svg class="ic-search" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.8" cy="7.8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m12.5 12.5 4.3 4.3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+            <input type="search" placeholder="搜索就业、商家、社团、活动…" readonly>
+          </label>
+          <button class="vbtn" type="button">
+            <svg class="ic-filter" viewBox="0 0 18 16" aria-hidden="true"><path d="M1.6 1.4h14.8M4.2 5.2h9.6L10.2 9.4v5.2l-2.4-1.4V9.4Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>筛选</span>
+          </button>
+          <button class="vbtn" type="button">
+            <svg class="ic-pin" viewBox="0 0 16 20" aria-hidden="true"><path d="M8 18.6s6.3-5.9 6.3-10.6A6.3 6.3 0 0 0 1.7 8c0 4.7 6.3 10.6 6.3 10.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>
+            <span>地点</span>
+          </button>
+        </div>
+
+        <!-- 第 4 层：分类（PRD V1.2 锁定五项） -->
+        <nav class="row-cats" aria-label="分类">
+          <button class="cat is-active" type="button">全部</button>
+          <button class="cat" type="button">就业</button>
+          <button class="cat" type="button">商家</button>
+          <button class="cat" type="button">社团</button>
+          <button class="cat" type="button">活动</button>
+        </nav>
+      </header>
+
+      <!-- 第 5 层：内容视口（feed；地图态以后只替换这里） -->
+      <section class="viewport" aria-label="信息流">
+        <!-- 示例卡：文案取自 UI 母版，不是数据库真实数据 -->
+        <article class="card-large" data-sample="true">
+          <div class="card-media">
+            <span class="ph-label">缺：卡片主图（体测跑道）<br><small>示例卡 · 非真实数据</small></span>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title"><span class="tag tag-event">活动</span><span class="title-text">2026 体质测试须知</span></h2>
+            <p class="meta">
+              <svg class="ic-meta" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4.6V9.3l3 1.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="num">9.14 – 10.30</span>
+            </p>
+            <p class="meta">
+              <svg class="ic-meta ic-meta-pin" viewBox="0 0 14 18" aria-hidden="true"><path d="M7 16.8s5.6-5.2 5.6-9.4A5.6 5.6 0 0 0 1.4 7.4c0 4.2 5.6 9.4 5.6 9.4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7" cy="7.2" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+              <span>体育场 · 体测中心</span>
+            </p>
+            <div class="chips">
+              <span class="chip">预约制</span><span class="chip">身份证</span><span class="chip">不安排补测</span>
+            </div>
+            <div class="card-foot">
+              <span class="views">
+                <svg class="ic-eye" viewBox="0 0 22 14" aria-hidden="true"><path d="M1.2 7C3.3 3.4 6.8 1.2 11 1.2S18.7 3.4 20.8 7c-2.1 3.6-5.6 5.8-9.8 5.8S3.3 10.6 1.2 7Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="11" cy="7" r="2.9" fill="currentColor"/></svg>
+                <span class="num">1.2k</span>
+              </span>
+              <button class="cta" type="button">查看</button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- 胖达 / 我：PRD 不设计内部页面，仅留占位 -->
+    <main class="page page-ph" data-page="panda" hidden>
+      <div class="ph-page">「胖达」Tab 内部页面不在本 PRD 范围<br><small>占位 · 等待设计稿</small></div>
+    </main>
+    <main class="page page-ph" data-page="me" hidden>
+      <div class="ph-page">「我」Tab 内部页面不在本 PRD 范围<br><small>占位 · 等待设计稿</small></div>
+    </main>
+
+    <!-- 底部全局导航：纯文字三 Tab，永远不透明白底 -->
+    <nav class="tabbar" aria-label="全局导航">
+      <button class="tab is-active" type="button" data-target="campus">校园</button>
+      <button class="tab" type="button" data-target="panda">胖达</button>
+      <button class="tab" type="button" data-target="me">我</button>
+    </nav>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
