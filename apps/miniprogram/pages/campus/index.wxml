@@ -46,47 +46,27 @@
 
     <!-- 第 4 层：分类（PRD V1.2 锁定五项） -->
     <view class="row-cats">
-      <view wx:for="{{cats}}" wx:key="*this"
+      <view wx:for="{{cats}}" wx:key="key"
             class="cat {{index === activeCat ? 'is-active' : ''}}"
-            data-index="{{index}}" bindtap="onCat">{{item}}</view>
+            data-index="{{index}}" bindtap="onCat">{{item.text}}</view>
     </view>
   </view>
 
   <!-- 第 5 层：内容视口（地图态以后只替换这里） -->
   <scroll-view class="viewport" scroll-y enhanced show-scrollbar="{{false}}">
-    <view class="viewport-inner">
-      <!-- 示例卡：文案取自 UI 母版，不是数据库真实数据 -->
-      <view class="card-large" data-sample="true">
-        <view class="card-media">
-          <text class="ph-label">缺：卡片主图（体测跑道）\n示例卡 · 非真实数据</text>
-        </view>
-        <view class="card-body">
-          <view class="card-title">
-            <text class="tag tag-event">活动</text>
-            <text class="title-text">2026 体质测试须知</text>
-          </view>
-          <view class="meta">
-            <image class="ic-meta" src="/assets/icons/clock.svg" />
-            <text class="num">9.14 – 10.30</text>
-          </view>
-          <view class="meta meta-2">
-            <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" />
-            <text>体育场 · 体测中心</text>
-          </view>
-          <view class="chips">
-            <text class="chip">预约制</text>
-            <text class="chip">身份证</text>
-            <text class="chip">不安排补测</text>
-          </view>
-          <view class="card-foot">
-            <view class="views">
-              <image class="ic-eye" src="/assets/icons/eye.svg" />
-              <text class="num">1.2k</text>
-            </view>
-            <view class="cta" hover-class="cta-pressed">查看</view>
-          </view>
-        </view>
+    <view wx:if="{{!loading && cards.length}}" class="feed-{{density}}">
+      <view wx:for="{{cards}}" wx:key="card_id" class="feed-item">
+        <info-card card="{{item}}" density="{{density}}"
+                   bind:open="onOpenCard" bind:media="onCardMedia" bind:action="onCardAction" />
       </view>
+    </view>
+    <view wx:elif="{{!loading && error}}" class="empty">
+      <text>{{error}}</text>
+      <view class="empty-btn" bindtap="onRetry">重试</view>
+    </view>
+    <view wx:elif="{{!loading}}" class="empty">
+      <text>没有找到符合条件的信息</text>
+      <view class="empty-btn" bindtap="onClearFilters">清除筛选</view>
     </view>
   </scroll-view>
 </view>

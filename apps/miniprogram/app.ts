@@ -1,6 +1,23 @@
 // 启动时测量状态栏和微信原生胶囊，供自定义顶栏排版（PRD 3.1：不写死坐标）
-App({
-  globalData: { nav: null },
+
+export interface NavMetrics {
+  statusBar: number;
+  rowHeight: number;
+  navHeight: number;
+  /** 胶囊中心距状态栏底部的距离 */
+  capsuleCenter: number;
+  capsuleLeft: number;
+  windowWidth: number;
+}
+
+export interface AppGlobal {
+  globalData: { nav: NavMetrics };
+}
+
+App<AppGlobal>({
+  globalData: {
+    nav: { statusBar: 0, rowHeight: 0, navHeight: 0, capsuleCenter: 0, capsuleLeft: 0, windowWidth: 375 },
+  },
 
   onLaunch() {
     const win = wx.getWindowInfo();

@@ -12,11 +12,22 @@
     "minified": true,
     "urlCheck": true,
     "packNpmManually": false,
-    "ignoreUploadUnusedFiles": true
+    "ignoreUploadUnusedFiles": true,
+    "useCompilerPlugins": [
+      "typescript"
+    ]
   },
   "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "tsconfig.json",
+        "type": "file"
+      }
+    ]
   }
 }

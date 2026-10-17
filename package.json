@@ -1,0 +1,12 @@
+{
+  "name": "panda-campus",
+  "private": true,
+  "description": "PANDA CAMPUS monorepo",
+  "scripts": {
+    "typecheck": "tsc -p apps/miniprogram --noEmit"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "5.2.3",
+    "typescript": "5.9.3"
+  }
+}

@@ -32,6 +32,15 @@ design/
 "/e/微信web开发者工具/cli.bat" preview --project "E:\Desktop\Panda-Campus" --qr-format image --qr-output "E:\Desktop\Panda-Campus\.preview\preview-qr.png"
 ```
 
+### 开发约定
+
+- 语言：TypeScript（开发者工具的 `typescript` 编译插件，无需额外构建）。类型检查：`npm install` 后运行 `npm run typecheck`
+- 共享数据类型写在 `packages/schema/src`，小程序里用 `import type { ... } from '@schema'` 引用（只引用类型，编译后会被擦除）
+- 样式：颜色、圆角用 `app.wxss` 里的 CSS 变量；尺寸直接写 rpx（设计稿 390 css px = 750rpx）
+- 状态：`store/campus.ts` 统一管理分类、搜索、筛选、密度、视图模式，页面用 `connectStore` 订阅
+- 请求：统一走 `utils/request.ts`，错误抛 `ApiError`；接口未就绪时 `config.ts` 的 `USE_SAMPLE_DATA` 为 true，只显示标记为示例的卡片
+- 信息卡：`components/info-card`，`density` 取值 `large` / `showcase` / `list`。调试时可以用启动参数 `pages/campus/index?density=list` 直接打开某一档
+
 ## H5 原型
 
 ```bash

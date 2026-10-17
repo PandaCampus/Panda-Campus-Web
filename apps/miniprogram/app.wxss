@@ -1,7 +1,53 @@
-/* 全局：中文用系统字体（iOS 为苹方），与设计稿一致 */
+/*
+ * 全局样式与设计变量。
+ * 尺寸直接写 rpx：设计稿基准 390 CSS px = 750rpx（1 css px ≈ 1.923rpx）；1px 细线保留 px。
+ * 颜色、圆角统一用下面的变量，组件里不要再写死色值。
+ */
 page {
-  background: #ffffff;
-  color: #111111;
+  /* 文字 */
+  --ink: #111111;
+  --ink-strong: #050505;
+  --ink-tab: #444c67;
+  --text-2: #656a83;          /* 时间、地点、浏览量 */
+  --text-3: #8a8fa3;          /* 搜索提示语 */
+  --text-chip: #737891;
+  --icon: #4f5571;
+
+  /* 品牌与业务分类（PRD 13.1） */
+  --brand-yellow: #ffc402;    /* CAMPUS、下划线、CTA、未读点 */
+  --brand-yellow-ink: #1e1600;
+  --tag-opportunity: #3478f6; /* 就业、创业 */
+  --tag-merchant: #f7be22;    /* 商家 */
+  --tag-identity: #9258d8;    /* 社团、组织、个人 */
+  --tag-event: #25a96b;       /* 活动 */
+
+  /* 底色与线条 */
+  --surface: #ffffff;
+  --surface-feed: #fafbfc;
+  --surface-fill: #f3f4f6;    /* 搜索框、小标签 */
+  --surface-pressed: #f2f3f5;
+  --placeholder: #e4e6eb;     /* 缺图占位 */
+  --placeholder-ink: #8d92a1;
+  --line: #eceef2;
+  --line-soft: #f3f4f6;
+
+  /* 圆角 */
+  --radius-card: 28.8rpx;     /* 大卡 15px */
+  --radius-card-sm: 23rpx;    /* 橱窗卡 12px */
+  --radius-btn: 21.2rpx;      /* 触达/消息/筛选/地点 11px */
+  --radius-chip: 13.5rpx;     /* 小标签 7px */
+  --radius-tag: 16.5rpx;      /* 大标签 8.6px */
+
+  --shadow-card: 0 3.8rpx 23rpx rgba(20, 24, 40, 0.035);
+
+  background: var(--surface);
+  color: var(--ink);
   font-family: "PingFang SC", -apple-system, "Helvetica Neue", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+/* 按下态（hover-class） */
+.pressed { background: var(--surface-pressed) !important; }
+
+/* 缺图占位文字 */
+.ph-label { font-size: 21.2rpx; line-height: 31.7rpx; color: var(--placeholder-ink); font-weight: 500; text-align: center; }

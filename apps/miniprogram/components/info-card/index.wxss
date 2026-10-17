@@ -1,0 +1,96 @@
+/*
+ * Information Card 三档样式，尺寸来自 design/ui 三张母版实测，直接写 rpx（390 css px = 750rpx）。
+ * 大卡：卡片视图.png；橱窗：橱窗视图.png；列表：列表视图.png。
+ */
+.num { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif; }
+.ellipsis { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.media { background: var(--placeholder); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.media-img { width: 100%; height: 100%; }
+.tag { flex: none; color: #ffffff; font-weight: 700; }
+.tag-opportunity { background: var(--tag-opportunity); }
+.tag-merchant { background: var(--tag-merchant); color: var(--brand-yellow-ink); }
+.tag-identity { background: var(--tag-identity); }
+.tag-event { background: var(--tag-event); }
+.title { font-weight: 800; color: var(--ink-strong); }
+.meta { display: flex; align-items: center; color: var(--text-2); }
+.ic-meta { flex: none; }
+.chips { display: flex; }
+.chip { flex: none; background: var(--surface-fill); color: var(--text-chip); }
+.views { display: flex; align-items: center; color: var(--text-2); }
+.cta { background: var(--brand-yellow); color: var(--brand-yellow-ink); font-weight: 800; text-align: center; }
+.cta-pressed { opacity: 0.85; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* ---------- 大图卡片 ---------- */
+.card-large { border-radius: var(--radius-card); }
+.media-large { height: 455.8rpx; }
+.body-large { padding: 21.2rpx 16.9rpx 25.4rpx 25.6rpx; }
+.body-large .title-row { display: flex; align-items: center; height: 55.2rpx; }
+.body-large .tag { height: 55.2rpx; padding: 0 19.6rpx; border-radius: var(--radius-tag); margin-right: 29.4rpx; font-size: 30rpx; line-height: 55.2rpx; }
+.body-large .title { font-size: 38.8rpx; line-height: 48.1rpx; }
+.body-large .meta { height: 46.2rpx; margin-top: 21.2rpx; font-size: 30rpx; }
+.body-large .meta-2 { margin-top: 10.8rpx; }
+.body-large .meta .num { font-size: 33.1rpx; }
+.body-large .ic-meta { width: 32.7rpx; height: 32.7rpx; margin: 0 27.7rpx 0 3.7rpx; }
+.body-large .ic-meta-pin { width: 26.9rpx; height: 34.6rpx; margin: 0 30.6rpx 0 6.5rpx; }
+.body-large .chips { margin-top: 20.8rpx; }
+.body-large .chip { height: 54.4rpx; padding: 0 19.6rpx; border-radius: var(--radius-chip); margin-right: 13.5rpx; font-size: 25rpx; line-height: 54.4rpx; }
+.body-large .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 11.3rpx; height: 73.5rpx; }
+.body-large .views { margin-top: 6.9rpx; padding-left: 1rpx; }
+.body-large .ic-eye { width: 41rpx; height: 26.2rpx; margin-right: 19rpx; }
+.body-large .views .num { font-size: 30.8rpx; }
+.body-large .cta { width: 184.8rpx; height: 73.5rpx; border-radius: 36.7rpx; font-size: 34.6rpx; line-height: 73.5rpx; }
+
+/* ---------- 双列橱窗 ---------- */
+.card-showcase { border-radius: var(--radius-card-sm); }
+.media-showcase { height: 206.3rpx; }
+.media-showcase .ph-label { font-size: 19.2rpx; }
+.body-showcase { padding: 9rpx 15rpx 13.1rpx 13.1rpx; }
+.body-showcase .title-row { display: flex; align-items: center; height: 48.1rpx; }
+.body-showcase .tag { height: 48.1rpx; padding: 0 16.5rpx; border-radius: 13.5rpx; margin-right: 17.1rpx; font-size: 25rpx; line-height: 48.1rpx; }
+.body-showcase .title { flex: 1; min-width: 0; font-size: 26rpx; line-height: 34.6rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-showcase .meta { height: 30.8rpx; margin-top: 13.1rpx; font-size: 24rpx; }
+.body-showcase .meta-2 { margin-top: 11rpx; }
+.body-showcase .meta .num { font-size: 25rpx; }
+.body-showcase .ic-meta { width: 24rpx; height: 24rpx; margin: 0 21.9rpx 0 2.1rpx; }
+.body-showcase .ic-meta-pin { width: 20rpx; height: 26rpx; margin: 0 23.1rpx 0 4rpx; }
+.body-showcase .chips { margin-top: 18.5rpx; padding-left: 2.1rpx; }
+.body-showcase .chip { height: 42.3rpx; padding: 0 12.7rpx; border-radius: 10.6rpx; margin-right: 11.5rpx; font-size: 22.1rpx; line-height: 42.3rpx; }
+.body-showcase .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 11rpx; height: 54rpx; }
+.body-showcase .views { padding-left: 4rpx; }
+.body-showcase .ic-eye { width: 32.1rpx; height: 21rpx; margin-right: 13.8rpx; }
+.body-showcase .views .num { font-size: 24rpx; }
+.body-showcase .cta { width: 111.2rpx; height: 54rpx; border-radius: 27rpx; font-size: 27.9rpx; line-height: 54rpx; }
+
+/* ---------- 紧凑列表 ---------- */
+.row-list {
+  position: relative; display: flex; box-sizing: border-box;
+  height: 199rpx; padding: 21rpx 28.7rpx 21rpx 29.6rpx;
+  background: var(--surface);
+}
+.row-list::after {
+  content: ""; position: absolute; left: 209.2rpx; right: 0; bottom: 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.media-list { flex: none; width: 151rpx; height: 157.1rpx; border-radius: 19.2rpx; }
+.media-list .ph-label { font-size: 19.2rpx; }
+.body-list { position: relative; flex: 1; min-width: 0; margin-left: 28.7rpx; }
+.body-list .title-row { display: flex; align-items: center; height: 43.8rpx; margin-top: 1.2rpx; padding-right: 26.9rpx; }
+.body-list .tag { height: 43.8rpx; padding: 0 16.7rpx; border-radius: 11.5rpx; margin-right: 16.3rpx; font-size: 24rpx; line-height: 43.8rpx; }
+.body-list .title { flex: 1; min-width: 0; font-size: 28.8rpx; line-height: 38.5rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-list .meta { height: 26.9rpx; margin-top: 13.1rpx; padding-right: 134.6rpx; font-size: 22.1rpx; }
+.body-list .ic-meta { width: 22.5rpx; height: 22.5rpx; margin: 0 20.4rpx 0 1rpx; }
+.body-list .ic-meta-pin { width: 17.3rpx; height: 22.5rpx; margin: 0 16.3rpx 0 0; }
+.body-list .meta-time { flex: none; margin-right: 33.7rpx; font-size: 22.1rpx; }
+.body-list .chips { margin-top: 16.2rpx; }
+.body-list .chip { height: 42.9rpx; padding: 0 13.8rpx; border-radius: 10.6rpx; margin-right: 12.5rpx; font-size: 22.1rpx; line-height: 42.9rpx; }
+.body-list .chevron { position: absolute; right: 1px; top: 38.8rpx; width: 10.2rpx; height: 20.4rpx; }
+.body-list .views { position: absolute; right: 6rpx; top: 101.2rpx; height: 42.9rpx; }
+.body-list .ic-eye { width: 32.7rpx; height: 20.4rpx; margin-right: 15.2rpx; }
+.body-list .views .num { font-size: 23.1rpx; }
+.body-list .cta { position: absolute; right: 0; top: 73.5rpx; width: 125.6rpx; height: 65.4rpx; border-radius: 32.7rpx; font-size: 29.8rpx; line-height: 65.4rpx; }
