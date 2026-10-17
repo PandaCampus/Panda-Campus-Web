@@ -231,3 +231,179 @@ window.SAMPLE_CARDS = [
     ]
   }
 ];
+window.FILTER_OPTIONS = {
+  "time": [
+    {
+      "value": "any",
+      "text": "不限"
+    },
+    {
+      "value": "today",
+      "text": "今天"
+    },
+    {
+      "value": "tomorrow",
+      "text": "明天"
+    },
+    {
+      "value": "this_week",
+      "text": "本周"
+    },
+    {
+      "value": "weekend",
+      "text": "本周末"
+    },
+    {
+      "value": "custom",
+      "text": "自定义",
+      "disabledReason": "自定义时间开发中"
+    }
+  ],
+  "place": [
+    {
+      "value": "any",
+      "text": "不限"
+    },
+    {
+      "value": "campus",
+      "text": "校内"
+    },
+    {
+      "value": "picked",
+      "text": "指定地点",
+      "disabledReason": "选择地点需要地点数据，开发中"
+    },
+    {
+      "value": "nearby",
+      "text": "附近",
+      "disabledReason": "需要定位授权和核验坐标"
+    },
+    {
+      "value": "online",
+      "text": "线上"
+    }
+  ],
+  "attrs": {
+    "opportunity": [
+      {
+        "value": "internship",
+        "text": "实习"
+      },
+      {
+        "value": "part_time",
+        "text": "兼职"
+      },
+      {
+        "value": "full_time",
+        "text": "全职"
+      },
+      {
+        "value": "startup",
+        "text": "创业"
+      },
+      {
+        "value": "online",
+        "text": "线上"
+      },
+      {
+        "value": "offline",
+        "text": "线下"
+      },
+      {
+        "value": "no_experience",
+        "text": "无经验要求"
+      },
+      {
+        "value": "salary_public",
+        "text": "薪酬公开"
+      }
+    ],
+    "merchant": [
+      {
+        "value": "food",
+        "text": "餐饮"
+      },
+      {
+        "value": "beauty",
+        "text": "美妆"
+      },
+      {
+        "value": "life_service",
+        "text": "生活服务"
+      },
+      {
+        "value": "consultable",
+        "text": "可咨询"
+      },
+      {
+        "value": "bookable",
+        "text": "可预约"
+      }
+    ],
+    "identity": [
+      {
+        "value": "recruiting",
+        "text": "招新中"
+      },
+      {
+        "value": "open_contact",
+        "text": "开放联系"
+      }
+    ],
+    "event": [
+      {
+        "value": "signup_open",
+        "text": "报名中"
+      },
+      {
+        "value": "ended",
+        "text": "已结束"
+      },
+      {
+        "value": "free",
+        "text": "免费"
+      },
+      {
+        "value": "online",
+        "text": "线上"
+      },
+      {
+        "value": "offline",
+        "text": "线下"
+      }
+    ]
+  },
+  "sort": [
+    {
+      "value": "recommended",
+      "text": "推荐"
+    },
+    {
+      "value": "latest",
+      "text": "最新发布"
+    },
+    {
+      "value": "starting_soon",
+      "text": "即将开始"
+    },
+    {
+      "value": "nearest",
+      "text": "距离最近",
+      "disabledReason": "需要核验坐标后才能按距离排序"
+    }
+  ],
+  "density": [
+    {
+      "value": "large",
+      "text": "卡片"
+    },
+    {
+      "value": "showcase",
+      "text": "橱窗"
+    },
+    {
+      "value": "list",
+      "text": "列表"
+    }
+  ]
+};

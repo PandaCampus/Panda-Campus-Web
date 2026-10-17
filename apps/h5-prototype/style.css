@@ -183,6 +183,31 @@ body.no-chrome .sim-statusbar { visibility: hidden; }
 .ph-label { font-size: 11px; line-height: 1.5; color: #8d92a1; font-weight: 500; }
 .avatar .ph-label { font-size: 9.5px; }
 
+/* 条件串、地图态（与小程序 pages/campus 同规则） */
+.row-cond { position: absolute; left: 0; right: 0; top: 262px; }
+.row-cond:empty { display: none; }
+.page-campus.has-cond .campus-header { height: 308px; }
+.page-campus.has-cond .viewport { top: 308px; }
+.cb { overflow-x: auto; scrollbar-width: none; }
+.vbtn-place.is-on { border-color: #c9ccd3; color: var(--ink); font-weight: 700; }
+.page-campus.is-map {
+  background-color: #eef0f3;
+  background-image: linear-gradient(#e3e6ea 1px, transparent 1px), linear-gradient(90deg, #e3e6ea 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.page-campus.is-map .campus-header {
+  background: linear-gradient(rgba(255, 255, 255, .92), rgba(255, 255, 255, .66));
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.viewport-map { background: transparent; overflow: visible; }
+.viewport[hidden] { display: none; }
+/* 筛选面板在 H5 里限制在手机画布内（小程序里是整页 fixed） */
+.device .fs-mask { position: absolute; z-index: 20; }
+.device .fs-sheet { max-height: 88%; }
+.device .fs-body { overflow-y: auto; scrollbar-width: none; }
+.device .mv-body { overflow-y: auto; scrollbar-width: none; }
+.fs-chip, .cb-chip, .mv-back, .fs-btn, .mv-locate, .fs-close { cursor: pointer; }
+
 /* 胖达 / 我 占位 */
 .ph-page {
   position: absolute; inset: 47px 0 0 0;

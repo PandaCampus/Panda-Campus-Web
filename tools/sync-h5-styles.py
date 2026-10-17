@@ -1,5 +1,5 @@
 """
-把小程序的信息卡样式同步到 H5 原型：rpx → px（750rpx = 390px），输出 apps/h5-prototype/card.css。
+把小程序的信息卡、筛选面板、条件串、地图视图样式同步到 H5 原型：rpx → px（750rpx = 390px），输出 apps/h5-prototype/card.css。
 H5 只用于和 UI 母版逐像素对照；改卡片样式请改小程序，然后运行：python tools/sync-h5-styles.py
 """
 import re
@@ -34,6 +34,9 @@ def feed_rules(campus_wxss: str) -> str:
 out = ['/* 自动生成：tools/sync-h5-styles.py，请勿手改 */',
        tokens((mp / 'app.wxss').read_text(encoding='utf-8')),
        feed_rules((mp / 'pages/campus/index.wxss').read_text(encoding='utf-8')),
-       to_px((mp / 'components/info-card/index.wxss').read_text(encoding='utf-8'))]
+       to_px((mp / 'components/info-card/index.wxss').read_text(encoding='utf-8')),
+       to_px((mp / 'components/filter-sheet/index.wxss').read_text(encoding='utf-8')),
+       to_px((mp / 'components/condition-bar/index.wxss').read_text(encoding='utf-8')),
+       to_px((mp / 'components/map-view/index.wxss').read_text(encoding='utf-8'))]
 (root / 'apps/h5-prototype/card.css').write_text('\n'.join(out), encoding='utf-8', newline='\n')
 print('written', root / 'apps/h5-prototype/card.css')

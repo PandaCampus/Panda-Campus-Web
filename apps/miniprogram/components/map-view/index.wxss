@@ -1,0 +1,46 @@
+/* 地图同框视图（地点地图专题 3.2、5.2）。占位底图由校园页在地图态铺在整页背后（顶部玻璃下可见）。 */
+.mv { position: relative; height: 100%; overflow: hidden; }
+.mv-missing {
+  position: absolute; left: 0; right: 0; top: 0; bottom: 30%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.mv-missing-title {
+  padding: 15.4rpx 26.9rpx; border: 1px dashed #b9bdc7; border-radius: 19.2rpx;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 25rpx; font-weight: 700; color: #6e7480;
+}
+.mv-missing-sub { margin-top: 15.4rpx; font-size: 22.1rpx; color: #8a8fa3; }
+
+.mv-sheet {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border-radius: 34.6rpx 34.6rpx 0 0;
+  box-shadow: 0 -7.7rpx 30.8rpx rgba(20, 24, 40, 0.08);
+  transition: height 0.22s ease;
+}
+.mv-sheet-peek { height: 30%; }
+.mv-sheet-half { height: 55%; }
+.mv-sheet-expanded { height: 82%; }
+.mv-locate {
+  position: absolute; right: 26.9rpx; top: -96.2rpx;
+  width: 73.1rpx; height: 73.1rpx; border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 3.8rpx 19.2rpx rgba(20, 24, 40, 0.14);
+  display: flex; align-items: center; justify-content: center;
+}
+.mv-locate-ic { width: 36.5rpx; height: 36.5rpx; }
+.mv-grip { flex: none; padding-top: 15.4rpx; }
+.mv-handle { width: 69.2rpx; height: 7.7rpx; margin: 0 auto; border-radius: 3.8rpx; background: #d9dbe0; }
+.mv-head { height: 76.9rpx; display: flex; align-items: center; padding: 0 30.8rpx; }
+.mv-head-title { font-size: 27.9rpx; font-weight: 700; color: var(--ink); }
+.mv-body { flex: 1; height: 0; }
+.mv-empty { padding: 0 30.8rpx 23.1rpx; }
+.mv-empty-text { display: block; font-size: 24rpx; line-height: 38.5rpx; color: var(--text-2); }
+.mv-back {
+  display: inline-block; margin-top: 19.2rpx; padding: 0 30.8rpx; height: 61.5rpx; line-height: 61.5rpx;
+  border: 1px solid #d9dbe0; border-radius: 30.8rpx;
+  font-size: 25rpx; font-weight: 600; color: var(--ink); background: var(--surface);
+}
+.mv-preview { border-top: 1px solid #f0f1f3; padding-top: 19.2rpx; }
+.mv-preview-label { display: block; margin: 0 30.8rpx 7.7rpx; font-size: 22.1rpx; color: var(--text-3); }

@@ -1,7 +1,7 @@
 import type { InformationCard } from '@schema';
 import type { AppGlobal, NavMetrics } from '../../app';
 import { listCards } from '../../api/cards';
-import { CATEGORIES, campusStore, connectStore, type CampusState, type FeedDensity } from '../../store/campus';
+import { CATEGORIES, DEFAULT_FILTERS, campusStore, connectStore, type CampusState, type FeedDensity } from '../../store/campus';
 import { ApiError } from '../../utils/request';
 
 const app = getApp<AppGlobal>();
@@ -19,6 +19,9 @@ Page({
     activeCat: 0,
     density: 'large' as FeedDensity,
     hasUnread: true,
+    viewMode: 'feed' as CampusState['viewMode'],
+    filterApplied: false,
+    filterVisible: false,
     cards: [] as InformationCard[],
     loading: true,
     error: '',
@@ -41,12 +44,20 @@ Page({
     const sk = options.skeleton as FeedDensity | '1' | undefined;
     if (sk && sk !== '1' && DENSITIES.includes(sk)) campusStore.setState({ feedDensity: sk });
     this.holdSkeleton = !!sk;
+    // 调试入口：?view=map 打开地图态；?filter=1 打开筛选面板；?applied=1 显示示例条件串
+    if (options.view === 'map') campusStore.setState({ viewMode: 'map' });
+    if (options.applied === '1') {
+      campusStore.setState({ category: 'event', filters: { time: 'this_week', place: 'campus', attrs: ['free'] }, filterApplied: true });
+    }
+    if (options.filter === '1') setTimeout(() => this.onOpenFilter(), 300);
 
     connectStore(
       this,
       (s) => ({
         activeCat: CATEGORIES.findIndex((c) => c.key === s.category),
         density: s.feedDensity,
+        viewMode: s.viewMode,
+        filterApplied: s.filterApplied,
       }),
       (state, prev) => {
         if (this.queryChanged(state, prev)) this.loadCards();
@@ -71,7 +82,8 @@ Page({
     this.setData({ loading: true, error: '' });
     if (this.holdSkeleton) return;
     try {
-      const page = await listCards({ category: s.category, query: s.query, filters: s.filters, sort: s.sort });
+      const filters = { time: [s.filters.time], place: [s.filters.place], attrs: s.filters.attrs };
+      const page = await listCards({ category: s.category, query: s.query, filters, sort: s.sort });
       this.setData({ cards: page.items, loading: false });
     } catch (e) {
       const msg = e instanceof ApiError && e.retryable ? '网络异常，请重试' : '加载失败';
@@ -83,8 +95,24 @@ Page({
     campusStore.setState({ category: CATEGORIES[e.currentTarget.dataset.index].key });
   },
 
+  onOpenFilter() {
+    this.setData({ filterVisible: true });
+    wx.hideTabBar({ animation: false });
+  },
+
+  onCloseFilter() {
+    this.setData({ filterVisible: false });
+    wx.showTabBar({ animation: false });
+  },
+
+  /** 「地点」是 feed ⇄ map 切换器；切回信息流时密度、筛选不变（PRD 8.4） */
+  onTogglePlace() {
+    const s = campusStore.getState();
+    campusStore.setState({ viewMode: s.viewMode === 'map' ? 'feed' : 'map' });
+  },
+
   onClearFilters() {
-    campusStore.setState({ category: 'all', query: '', filters: {} });
+    campusStore.setState({ category: 'all', query: '', filters: DEFAULT_FILTERS, filterApplied: false });
   },
 
   onRetry() {

@@ -1,4 +1,4 @@
-<view class="page">
+<view class="page {{viewMode === 'map' ? 'is-map' : ''}}">
   <!-- 顶部四层：默认不透明白底 -->
   <view class="header">
     <!-- 第 1 层：状态栏 + 品牌行（右侧为微信原生胶囊，由系统绘制） -->
@@ -34,11 +34,11 @@
         <image class="ic-search" src="/assets/icons/search.svg" />
         <text class="search-ph">搜索就业、商家、社团、活动…</text>
       </view>
-      <view class="vbtn vbtn-filter" hover-class="pressed">
+      <view class="vbtn vbtn-filter" hover-class="pressed" bindtap="onOpenFilter">
         <image class="ic-filter" src="/assets/icons/filter.svg" />
         <text>筛选</text>
       </view>
-      <view class="vbtn vbtn-place" hover-class="pressed">
+      <view class="vbtn vbtn-place {{viewMode === 'map' ? 'is-on' : ''}}" hover-class="pressed" bindtap="onTogglePlace">
         <image class="ic-pin" src="/assets/icons/pin.svg" />
         <text>地点</text>
       </view>
@@ -50,10 +50,18 @@
             class="cat {{index === activeCat ? 'is-active' : ''}}"
             data-index="{{index}}" bindtap="onCat">{{item.text}}</view>
     </view>
+
+    <!-- 条件串：只在全局筛选应用后出现 -->
+    <condition-bar wx:if="{{filterApplied}}" bind:openfilter="onOpenFilter" />
+  </view>
+
+  <!-- 地图态：只替换内容视口（PRD 8.1） -->
+  <view wx:if="{{viewMode === 'map'}}" class="viewport viewport-map">
+    <map-view />
   </view>
 
   <!-- 第 5 层：内容视口（地图态以后只替换这里） -->
-  <scroll-view class="viewport" scroll-y enhanced show-scrollbar="{{false}}">
+  <scroll-view wx:else class="viewport" scroll-y enhanced show-scrollbar="{{false}}">
     <!-- 加载中：骨架屏（几何与当前密度一致） -->
     <view wx:if="{{loading}}" class="feed-{{density}}">
       <view wx:for="{{skeletonSlots[density]}}" wx:key="*this" class="feed-item">
@@ -75,4 +83,6 @@
       <view class="empty-btn" bindtap="onClearFilters">清除筛选</view>
     </view>
   </scroll-view>
+
+  <filter-sheet visible="{{filterVisible}}" bind:close="onCloseFilter" />
 </view>

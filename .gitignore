@@ -2,3 +2,4 @@ project.private.config.json
 node_modules/
 .preview/
 .claude/
+docs/需求板.md

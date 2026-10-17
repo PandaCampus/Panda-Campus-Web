@@ -193,3 +193,110 @@
 .body-list .sk-meta-2 { width: 69.99px; }
 .body-list .sk-chip { width: 43.99px; padding: 0; }
 .body-list .sk-views { width: 30px; height: 7.02px; }
+
+/* 全局筛选面板，外观取自 design/ui/筛选视图.webp（直接写 rpx，390 css px = 390px） */
+.fs-mask {
+  position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 100;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.fs-sheet {
+  display: flex; flex-direction: column;
+  max-height: 88vh;
+  background: var(--surface);
+  border-radius: 17.99px 17.99px 0 0;
+}
+.fs-handle { flex: none; width: 35.98px; height: 4px; margin: 8.01px auto 0; border-radius: 1.98px; background: #d9dbe0; }
+.fs-header { flex: none; position: relative; height: 39.99px; display: flex; align-items: center; justify-content: center; }
+.fs-title { font-size: 16.02px; font-weight: 700; color: var(--ink); }
+.fs-close {
+  position: absolute; right: 16.02px; top: 4.99px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--surface-fill);
+  display: flex; align-items: center; justify-content: center;
+}
+.fs-close-ic { width: 11.02px; height: 11.02px; }
+.fs-body { flex: 1; height: 0; min-height: 199.99px; }
+.fs-section { margin: 0 20.02px; padding: 9.98px 0; border-bottom: 1px solid #f0f1f3; }
+.fs-section-last { border-bottom: 0; }
+.fs-sec-title { display: block; height: 20.02px; line-height: 20.02px; margin-bottom: 9px; font-size: 13.99px; font-weight: 700; color: var(--ink); }
+.fs-sec-sub { margin-left: 5.98px; font-size: 11.49px; font-weight: 400; color: var(--text-3); }
+.fs-chips { display: flex; flex-wrap: wrap; margin-bottom: -8.01px; }
+.fs-chip {
+  display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+  min-width: 57.51px; height: 30.99px; padding: 0 13.99px; margin: 0 8.01px 8.01px 0;
+  border-radius: 9px; background: var(--surface-fill);
+  font-size: 12.48px; color: #5a5f73;
+}
+.fs-chip.is-on { background: var(--brand-yellow); color: var(--brand-yellow-ink); font-weight: 700; }
+.fs-chip.is-off { opacity: 0.45; }
+.fs-more { width: 4.99px; height: 9px; margin-left: 8.01px; }
+.fs-hint { display: block; height: 30.99px; line-height: 30.99px; font-size: 12.48px; color: var(--text-3); }
+.fs-footer {
+  flex: none; display: flex; justify-content: space-between;
+  padding: 9.98px 20.02px calc(12.01px + env(safe-area-inset-bottom));
+  border-top: 1px solid #f0f1f3;
+}
+.fs-btn { flex: 1; height: 39px; line-height: 39px; border-radius: 19.5px; text-align: center; font-size: 14.98px; font-weight: 700; box-sizing: border-box; }
+.fs-reset { margin-right: 9.98px; border: 1px solid #d9dbe0; background: var(--surface); color: var(--ink); }
+.fs-confirm { background: var(--brand-yellow); color: var(--brand-yellow-ink); }
+.cta-pressed { opacity: 0.85; }
+
+/* 筛选条件串，取自 design/ui/信息流筛选组件.webp（直接写 rpx） */
+.cb { width: 100%; height: 46.02px; white-space: nowrap; }
+.cb-inner { display: inline-flex; align-items: center; height: 46.02px; padding: 0 16.02px; }
+.cb-chip {
+  display: inline-flex; align-items: center; flex: none;
+  height: 31.98px; padding: 0 11.02px 0 13px; margin-right: 6.5px;
+  border-radius: 12.01px; background: var(--surface-fill);
+  font-size: 13.52px; color: var(--ink);
+}
+.cb-chip.is-active { font-weight: 600; }
+.cb-caret { width: 9px; height: 5.51px; margin-left: 7.02px; }
+
+/* 地图同框视图（地点地图专题 3.2、5.2）。占位底图由校园页在地图态铺在整页背后（顶部玻璃下可见）。 */
+.mv { position: relative; height: 100%; overflow: hidden; }
+.mv-missing {
+  position: absolute; left: 0; right: 0; top: 0; bottom: 30%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.mv-missing-title {
+  padding: 8.01px 13.99px; border: 1px dashed #b9bdc7; border-radius: 9.98px;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 13px; font-weight: 700; color: #6e7480;
+}
+.mv-missing-sub { margin-top: 8.01px; font-size: 11.49px; color: #8a8fa3; }
+
+.mv-sheet {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border-radius: 17.99px 17.99px 0 0;
+  box-shadow: 0 -4px 16.02px rgba(20, 24, 40, 0.08);
+  transition: height 0.22s ease;
+}
+.mv-sheet-peek { height: 30%; }
+.mv-sheet-half { height: 55%; }
+.mv-sheet-expanded { height: 82%; }
+.mv-locate {
+  position: absolute; right: 13.99px; top: -50.02px;
+  width: 38.01px; height: 38.01px; border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 1.98px 9.98px rgba(20, 24, 40, 0.14);
+  display: flex; align-items: center; justify-content: center;
+}
+.mv-locate-ic { width: 18.98px; height: 18.98px; }
+.mv-grip { flex: none; padding-top: 8.01px; }
+.mv-handle { width: 35.98px; height: 4px; margin: 0 auto; border-radius: 1.98px; background: #d9dbe0; }
+.mv-head { height: 39.99px; display: flex; align-items: center; padding: 0 16.02px; }
+.mv-head-title { font-size: 14.51px; font-weight: 700; color: var(--ink); }
+.mv-body { flex: 1; height: 0; }
+.mv-empty { padding: 0 16.02px 12.01px; }
+.mv-empty-text { display: block; font-size: 12.48px; line-height: 20.02px; color: var(--text-2); }
+.mv-back {
+  display: inline-block; margin-top: 9.98px; padding: 0 16.02px; height: 31.98px; line-height: 31.98px;
+  border: 1px solid #d9dbe0; border-radius: 16.02px;
+  font-size: 13px; font-weight: 600; color: var(--ink); background: var(--surface);
+}
+.mv-preview { border-top: 1px solid #f0f1f3; padding-top: 9.98px; }
+.mv-preview-label { display: block; margin: 0 16.02px 4px; font-size: 11.49px; color: var(--text-3); }

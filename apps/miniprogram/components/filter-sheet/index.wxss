@@ -1,0 +1,47 @@
+/* 全局筛选面板，外观取自 design/ui/筛选视图.webp（直接写 rpx，390 css px = 750rpx） */
+.fs-mask {
+  position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 100;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.fs-sheet {
+  display: flex; flex-direction: column;
+  max-height: 88vh;
+  background: var(--surface);
+  border-radius: 34.6rpx 34.6rpx 0 0;
+}
+.fs-handle { flex: none; width: 69.2rpx; height: 7.7rpx; margin: 15.4rpx auto 0; border-radius: 3.8rpx; background: #d9dbe0; }
+.fs-header { flex: none; position: relative; height: 76.9rpx; display: flex; align-items: center; justify-content: center; }
+.fs-title { font-size: 30.8rpx; font-weight: 700; color: var(--ink); }
+.fs-close {
+  position: absolute; right: 30.8rpx; top: 9.6rpx;
+  width: 57.7rpx; height: 57.7rpx; border-radius: 50%;
+  background: var(--surface-fill);
+  display: flex; align-items: center; justify-content: center;
+}
+.fs-close-ic { width: 21.2rpx; height: 21.2rpx; }
+.fs-body { flex: 1; height: 0; min-height: 384.6rpx; }
+.fs-section { margin: 0 38.5rpx; padding: 19.2rpx 0; border-bottom: 1px solid #f0f1f3; }
+.fs-section-last { border-bottom: 0; }
+.fs-sec-title { display: block; height: 38.5rpx; line-height: 38.5rpx; margin-bottom: 17.3rpx; font-size: 26.9rpx; font-weight: 700; color: var(--ink); }
+.fs-sec-sub { margin-left: 11.5rpx; font-size: 22.1rpx; font-weight: 400; color: var(--text-3); }
+.fs-chips { display: flex; flex-wrap: wrap; margin-bottom: -15.4rpx; }
+.fs-chip {
+  display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+  min-width: 110.6rpx; height: 59.6rpx; padding: 0 26.9rpx; margin: 0 15.4rpx 15.4rpx 0;
+  border-radius: 17.3rpx; background: var(--surface-fill);
+  font-size: 24rpx; color: #5a5f73;
+}
+.fs-chip.is-on { background: var(--brand-yellow); color: var(--brand-yellow-ink); font-weight: 700; }
+.fs-chip.is-off { opacity: 0.45; }
+.fs-more { width: 9.6rpx; height: 17.3rpx; margin-left: 15.4rpx; }
+.fs-hint { display: block; height: 59.6rpx; line-height: 59.6rpx; font-size: 24rpx; color: var(--text-3); }
+.fs-footer {
+  flex: none; display: flex; justify-content: space-between;
+  padding: 19.2rpx 38.5rpx calc(23.1rpx + env(safe-area-inset-bottom));
+  border-top: 1px solid #f0f1f3;
+}
+.fs-btn { flex: 1; height: 75rpx; line-height: 75rpx; border-radius: 37.5rpx; text-align: center; font-size: 28.8rpx; font-weight: 700; box-sizing: border-box; }
+.fs-reset { margin-right: 19.2rpx; border: 1px solid #d9dbe0; background: var(--surface); color: var(--ink); }
+.fs-confirm { background: var(--brand-yellow); color: var(--brand-yellow-ink); }
+.cta-pressed { opacity: 0.85; }

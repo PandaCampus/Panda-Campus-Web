@@ -68,11 +68,11 @@
             <svg class="ic-search" viewBox="0 0 18 18" aria-hidden="true"><circle cx="7.8" cy="7.8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m12.5 12.5 4.3 4.3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
             <input type="search" placeholder="搜索就业、商家、社团、活动…" readonly>
           </label>
-          <button class="vbtn" type="button">
+          <button class="vbtn" type="button" id="btn-filter">
             <svg class="ic-filter" viewBox="0 0 18 16" aria-hidden="true"><path d="M1.6 1.4h14.8M4.2 5.2h9.6L10.2 9.4v5.2l-2.4-1.4V9.4Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>筛选</span>
           </button>
-          <button class="vbtn" type="button">
+          <button class="vbtn vbtn-place" type="button" id="btn-place">
             <svg class="ic-pin" viewBox="0 0 16 20" aria-hidden="true"><path d="M8 18.6s6.3-5.9 6.3-10.6A6.3 6.3 0 0 0 1.7 8c0 4.7 6.3 10.6 6.3 10.6Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><circle cx="8" cy="8" r="2.3" fill="none" stroke="currentColor" stroke-width="1.9"/></svg>
             <span>地点</span>
           </button>
@@ -86,10 +86,13 @@
           <button class="cat" type="button">社团</button>
           <button class="cat" type="button">活动</button>
         </nav>
+        <!-- 条件串：只在全局筛选应用后出现（由 app.js 渲染） -->
+        <div class="row-cond" id="cond"></div>
       </header>
 
       <!-- 第 5 层：内容视口（由 app.js 按 ?density= 渲染；?skeleton=1 停在骨架屏） -->
       <section class="viewport" id="feed" aria-label="信息流"></section>
+      <section class="viewport viewport-map" id="map" aria-label="地点地图" hidden></section>
     </main>
 
     <!-- 胖达 / 我：PRD 不设计内部页面，仅留占位 -->
@@ -100,6 +103,9 @@
       <div class="ph-page">「我」Tab 内部页面不在本 PRD 范围<br><small>占位 · 等待设计稿</small></div>
     </main>
 
+    <!-- 全局筛选面板（由 app.js 渲染） -->
+    <div id="filter-root"></div>
+
     <!-- 底部全局导航：纯文字三 Tab，永远不透明白底 -->
     <nav class="tabbar" aria-label="全局导航">
       <button class="tab is-active" type="button" data-target="campus">校园</button>
@@ -109,6 +115,7 @@
   </div>
 
   <script src="data.js"></script>
+  <script src="cards.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

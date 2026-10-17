@@ -119,3 +119,21 @@
   border: 1px solid var(--line); border-radius: 32rpx;
   font-size: 26rpx; color: var(--ink); background: var(--surface);
 }
+
+/* 「地点」激活态：只用微弱描边和文字变化（地图专题 3.2） */
+.vbtn-place.is-on { border-color: #c9ccd3; color: var(--ink); font-weight: 700; }
+
+/* ---------- 地图态（PRD 3.5 / 8.2） ---------- */
+/* 占位底图铺在整页背后，顶部玻璃下也能看到；底部 Tab 是独立的不透明白色，不受影响 */
+.page.is-map {
+  background-color: #eef0f3;
+  background-image: linear-gradient(#e3e6ea 1px, transparent 1px), linear-gradient(90deg, #e3e6ea 1px, transparent 1px);
+  background-size: 46.2rpx 46.2rpx;
+}
+/* 顶部四层只换背景：纵向白色渐变磨玻璃，几何不变 */
+.page.is-map .header {
+  background: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.66));
+  -webkit-backdrop-filter: blur(27rpx);
+  backdrop-filter: blur(27rpx);
+}
+.viewport-map { background: transparent; position: relative; }

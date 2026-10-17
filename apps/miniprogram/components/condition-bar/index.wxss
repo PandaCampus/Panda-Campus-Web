@@ -1,0 +1,11 @@
+/* 筛选条件串，取自 design/ui/信息流筛选组件.webp（直接写 rpx） */
+.cb { width: 100%; height: 88.5rpx; white-space: nowrap; }
+.cb-inner { display: inline-flex; align-items: center; height: 88.5rpx; padding: 0 30.8rpx; }
+.cb-chip {
+  display: inline-flex; align-items: center; flex: none;
+  height: 61.5rpx; padding: 0 21.2rpx 0 25rpx; margin-right: 12.5rpx;
+  border-radius: 23.1rpx; background: var(--surface-fill);
+  font-size: 26rpx; color: var(--ink);
+}
+.cb-chip.is-active { font-weight: 600; }
+.cb-caret { width: 17.3rpx; height: 10.6rpx; margin-left: 13.5rpx; }

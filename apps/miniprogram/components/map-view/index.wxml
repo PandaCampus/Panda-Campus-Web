@@ -1,0 +1,32 @@
+<!-- 地图内容视口：占位底图 + 地图内抽屉（不覆盖顶部分类栏和底部 Tab） -->
+<view class="mv">
+  <view class="mv-missing">
+    <text class="mv-missing-title">缺：授权底图与核验点位</text>
+    <text class="mv-missing-sub">数据就绪前不显示任何点位、距离或楼层</text>
+  </view>
+
+  <view class="mv-sheet mv-sheet-{{sheetState}}">
+    <view class="mv-locate" hover-class="pressed" bindtap="onLocate">
+      <image class="mv-locate-ic" src="/assets/icons/locate.svg" />
+    </view>
+
+    <view class="mv-grip" bindtap="onHandleTap" bindtouchstart="onTouchStart" bindtouchend="onTouchEnd">
+      <view class="mv-handle" />
+      <view class="mv-head">
+        <text class="mv-head-title">地点 · 暂无已核验数据</text>
+      </view>
+    </view>
+
+    <scroll-view class="mv-body" scroll-y="{{sheetState === 'expanded'}}" enhanced show-scrollbar="{{false}}">
+      <view class="mv-empty">
+        <text class="mv-empty-text">地图在拿到授权底图和核验坐标后上线。\n没有坐标的内容，仍可在信息流里查看。</text>
+        <view class="mv-back" hover-class="pressed" bindtap="onBackToFeed">返回信息流</view>
+      </view>
+      <!-- 半屏 / 展开时预览将来的地点卡片集合：只用骨架，不放虚构内容 -->
+      <view wx:if="{{sheetState !== 'peek'}}" class="mv-preview">
+        <text class="mv-preview-label">选中地点后，这里列出该地点关联的就业、商家、社团、活动卡片</text>
+        <info-card wx:for="{{skeletonRows}}" wx:key="*this" skeleton density="list" />
+      </view>
+    </scroll-view>
+  </view>
+</view>

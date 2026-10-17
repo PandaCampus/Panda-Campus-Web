@@ -1,5 +1,8 @@
 {
   "usingComponents": {
-    "info-card": "/components/info-card/index"
+    "info-card": "/components/info-card/index",
+    "filter-sheet": "/components/filter-sheet/index",
+    "condition-bar": "/components/condition-bar/index",
+    "map-view": "/components/map-view/index"
   }
 }
