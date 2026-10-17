@@ -1,6 +1,6 @@
 {
   "description": "PANDA CAMPUS 校园 Tab 小程序",
-  "miniprogramRoot": "miniprogram/",
+  "miniprogramRoot": "apps/miniprogram/",
   "compileType": "miniprogram",
   "appid": "wxe20ca5becd49789b",
   "projectname": "Panda-Campus",
