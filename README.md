@@ -43,6 +43,19 @@ design/
 
 ## H5 原型
 
+H5 只用于和 UI 母版逐像素对照。卡片样式和示例数据从小程序同步，不要在 H5 里手改：
+
+```bash
+python tools/sync-h5-styles.py
+```
+
+```bash
+node tools/sync-h5-data.js
+```
+
+URL 参数：`?density=large|showcase|list`、`?skeleton=1`（停在骨架屏）、`?flat=1&h=781`（截图模式）。对照截图在 `docs/screenshots/`。
+
+
 ```bash
 python -m http.server 5173 --directory apps/h5-prototype
 ```

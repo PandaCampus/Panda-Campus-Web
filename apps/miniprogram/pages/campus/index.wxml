@@ -54,17 +54,23 @@
 
   <!-- 第 5 层：内容视口（地图态以后只替换这里） -->
   <scroll-view class="viewport" scroll-y enhanced show-scrollbar="{{false}}">
-    <view wx:if="{{!loading && cards.length}}" class="feed-{{density}}">
+    <!-- 加载中：骨架屏（几何与当前密度一致） -->
+    <view wx:if="{{loading}}" class="feed-{{density}}">
+      <view wx:for="{{skeletonSlots[density]}}" wx:key="*this" class="feed-item">
+        <info-card skeleton density="{{density}}" />
+      </view>
+    </view>
+    <view wx:elif="{{cards.length}}" class="feed-{{density}}">
       <view wx:for="{{cards}}" wx:key="card_id" class="feed-item">
         <info-card card="{{item}}" density="{{density}}"
                    bind:open="onOpenCard" bind:media="onCardMedia" bind:action="onCardAction" />
       </view>
     </view>
-    <view wx:elif="{{!loading && error}}" class="empty">
+    <view wx:elif="{{error}}" class="empty">
       <text>{{error}}</text>
       <view class="empty-btn" bindtap="onRetry">重试</view>
     </view>
-    <view wx:elif="{{!loading}}" class="empty">
+    <view wx:else class="empty">
       <text>没有找到符合条件的信息</text>
       <view class="empty-btn" bindtap="onClearFilters">清除筛选</view>
     </view>

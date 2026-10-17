@@ -38,6 +38,18 @@ page {
   --radius-chip: 13.5rpx;     /* 小标签 7px */
   --radius-tag: 16.5rpx;      /* 大标签 8.6px */
 
+  /* 母版里「通知」「服务」等非 PRD 类别的标签外观（浅黄底深字） */
+  --tag-legacy: #fdd648;
+
+  /* 骨架屏（取自骨架线框参考图） */
+  --sk-media: #ced0d4;
+  --sk-tag: #919397;
+  --sk-title: #9ea0a4;
+  --sk-bar: #c4c7cb;
+  --sk-chip: #e8e8ea;
+  --sk-chip-bar: #d3d4d7;
+  --sk-cta: #252525;
+
   --shadow-card: 0 3.8rpx 23rpx rgba(20, 24, 40, 0.035);
 
   background: var(--surface);

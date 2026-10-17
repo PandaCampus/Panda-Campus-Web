@@ -36,9 +36,17 @@ export interface Capability {
   /** CTA 文案动词：查看、申请、咨询、加入、报名… */
   label: string;
   status: 'enabled' | 'disabled' | 'external';
+  /** 高优先级行动（如报名、提交）：紧凑列表里也显示按钮；否则列表只显示「>」进入详情 */
+  prominent?: boolean;
   /** 小程序内路由或官方外链 */
   route?: string;
   disabled_reason?: string;
+}
+
+/** 关键属性（小标签来源）。数组顺序是展示顺序，rank 是重要度（1 最重要），橱窗等窄卡按 rank 取前几项 */
+export interface KeyFact {
+  text: string;
+  rank: number;
 }
 
 export interface InformationCard {
@@ -58,7 +66,7 @@ export interface InformationCard {
   /** 展示用的地点文本，例如「体育场 · 体测中心」或「线上」 */
   place_text?: string;
   /** 经过核对的关键属性，作为小标签来源（1–3 个） */
-  key_facts: string[];
+  key_facts: KeyFact[];
   metrics: CardMetrics;
   publisher_entity_id: string;
   responsible_entity_ids: string[];

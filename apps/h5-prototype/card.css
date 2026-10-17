@@ -1,0 +1,195 @@
+/* 自动生成：tools/sync-h5-styles.py，请勿手改 */
+:root {
+  /* 文字 */
+  --ink: #111111;
+  --ink-strong: #050505;
+  --ink-tab: #444c67;
+  --text-2: #656a83;          /* 时间、地点、浏览量 */
+  --text-3: #8a8fa3;          /* 搜索提示语 */
+  --text-chip: #737891;
+  --icon: #4f5571;
+
+  /* 品牌与业务分类（PRD 13.1） */
+  --brand-yellow: #ffc402;    /* CAMPUS、下划线、CTA、未读点 */
+  --brand-yellow-ink: #1e1600;
+  --tag-opportunity: #3478f6; /* 就业、创业 */
+  --tag-merchant: #f7be22;    /* 商家 */
+  --tag-identity: #9258d8;    /* 社团、组织、个人 */
+  --tag-event: #25a96b;       /* 活动 */
+
+  /* 底色与线条 */
+  --surface: #ffffff;
+  --surface-feed: #fafbfc;
+  --surface-fill: #f3f4f6;    /* 搜索框、小标签 */
+  --surface-pressed: #f2f3f5;
+  --placeholder: #e4e6eb;     /* 缺图占位 */
+  --placeholder-ink: #8d92a1;
+  --line: #eceef2;
+  --line-soft: #f3f4f6;
+
+  /* 圆角 */
+  --radius-card: 14.98px;     /* 大卡 15px */
+  --radius-card-sm: 11.96px;    /* 橱窗卡 12px */
+  --radius-btn: 11.02px;      /* 触达/消息/筛选/地点 11px */
+  --radius-chip: 7.02px;     /* 小标签 7px */
+  --radius-tag: 8.58px;      /* 大标签 8.6px */
+
+  /* 母版里「通知」「服务」等非 PRD 类别的标签外观（浅黄底深字） */
+  --tag-legacy: #fdd648;
+
+  /* 骨架屏（取自骨架线框参考图） */
+  --sk-media: #ced0d4;
+  --sk-tag: #919397;
+  --sk-title: #9ea0a4;
+  --sk-bar: #c4c7cb;
+  --sk-chip: #e8e8ea;
+  --sk-chip-bar: #d3d4d7;
+  --sk-cta: #252525;
+
+  --shadow-card: 0 1.98px 11.96px rgba(20, 24, 40, 0.035);
+
+  }
+
+/* 第 5 层：内容视口 */
+.feed-large { padding: 6.6px 12.48px 16.02px 13px; }
+.feed-large .feed-item + .feed-item { margin-top: 11.96px; }
+/* 橱窗：两列 175px、列间距 9.4px */
+.feed-showcase {
+  padding: 6.6px 14.09px 16.02px 16.12px;
+  display: flex; flex-wrap: wrap; justify-content: space-between;
+}
+.feed-showcase .feed-item { width: 174.98px; margin-bottom: 9.98px; }
+.feed-list { padding: 0 0 16.02px; background: var(--surface); }
+
+/*
+ * Information Card 三档样式，尺寸来自 design/ui 三张母版实测，直接写 rpx（390 css px = 390px）。
+ * 大卡：卡片视图.png；橱窗：橱窗视图.png；列表：列表视图.png。
+ */
+.num { font-family: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif; }
+.ellipsis { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.media { background: var(--placeholder); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.media-img { width: 100%; height: 100%; }
+.tag { flex: none; color: #ffffff; font-weight: 700; }
+.tag-opportunity { background: var(--tag-opportunity); }
+.tag-merchant { background: var(--tag-merchant); color: var(--brand-yellow-ink); }
+.tag-identity { background: var(--tag-identity); }
+.tag-event { background: var(--tag-event); }
+.title { font-weight: 800; color: var(--ink-strong); }
+.meta { display: flex; align-items: center; color: var(--text-2); }
+.ic-meta { flex: none; }
+.chips { display: flex; }
+.chip { flex: none; background: var(--surface-fill); color: var(--text-chip); }
+.views { display: flex; align-items: center; color: var(--text-2); }
+.cta { background: var(--brand-yellow); color: var(--brand-yellow-ink); font-weight: 800; text-align: center; }
+.cta-pressed { opacity: 0.85; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* ---------- 大图卡片 ---------- */
+.card-large { border-radius: var(--radius-card); }
+.media-large { height: 237.02px; }
+.body-large { padding: 11.02px 8.79px 13.21px 13.31px; }
+.body-large .title-row { display: flex; align-items: center; height: 28.7px; }
+.body-large .tag { height: 28.7px; padding: 0 10.19px; border-radius: var(--radius-tag); margin-right: 15.29px; font-size: 15.6px; line-height: 28.7px; }
+.body-large .title { font-size: 20.18px; line-height: 25.01px; }
+.body-large .meta { height: 24.02px; margin-top: 11.02px; font-size: 15.6px; }
+.body-large .meta-2 { margin-top: 5.62px; }
+.body-large .meta .num { font-size: 17.21px; }
+.body-large .ic-meta { width: 17px; height: 17px; margin: 0 14.4px 0 1.92px; }
+.body-large .ic-meta-pin { width: 13.99px; height: 17.99px; margin: 0 15.91px 0 3.38px; }
+.body-large .chips { margin-top: 10.82px; }
+.body-large .chip { height: 28.29px; padding: 0 10.19px; border-radius: var(--radius-chip); margin-right: 7.02px; font-size: 13px; line-height: 28.29px; }
+.body-large .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 5.88px; height: 38.22px; }
+.body-large .views { margin-top: 3.59px; padding-left: 0.52px; }
+.body-large .ic-eye { width: 21.32px; height: 13.62px; margin-right: 9.88px; }
+.body-large .views .num { font-size: 16.02px; }
+.body-large .cta { width: 96.1px; height: 38.22px; border-radius: 19.08px; font-size: 17.99px; line-height: 38.22px; }
+
+/* ---------- 双列橱窗 ---------- */
+.card-showcase { border-radius: var(--radius-card-sm); }
+.media-showcase { height: 107.28px; }
+.media-showcase .ph-label { font-size: 9.98px; }
+.body-showcase { padding: 4.68px 7.8px 6.81px 6.81px; }
+.body-showcase .title-row { display: flex; align-items: center; height: 25.01px; }
+.body-showcase .tag { height: 25.01px; padding: 0 8.58px; border-radius: 7.02px; margin-right: 8.89px; font-size: 13px; line-height: 25.01px; }
+.body-showcase .title { flex: 1; min-width: 0; font-size: 12.58px; font-weight: 700; letter-spacing: -0.31px; line-height: 17.99px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-showcase .meta { height: 16.02px; margin-top: 6.81px; font-size: 12.48px; }
+.body-showcase .meta-2 { margin-top: 5.72px; }
+.body-showcase .meta .num { font-size: 13px; }
+.body-showcase .ic-meta { width: 12.48px; height: 12.48px; margin: 0 11.39px 0 1.09px; }
+.body-showcase .ic-meta-pin { width: 10.4px; height: 13.52px; margin: 0 12.01px 0 2.08px; }
+.body-showcase .chips { margin-top: 9.62px; padding-left: 1.09px; }
+.body-showcase .chip { height: 22px; padding: 0 6.6px; border-radius: 5.51px; margin-right: 5.98px; font-size: 11.49px; line-height: 22px; }
+.body-showcase .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 5.72px; height: 28.08px; }
+.body-showcase .views { padding-left: 2.08px; }
+.body-showcase .ic-eye { width: 16.69px; height: 10.92px; margin-right: 7.18px; }
+.body-showcase .views .num { font-size: 12.48px; }
+.body-showcase .cta { width: 57.82px; height: 28.08px; border-radius: 14.04px; font-size: 14.51px; line-height: 28.08px; }
+
+/* ---------- 紧凑列表 ---------- */
+.row-list {
+  position: relative; display: flex; box-sizing: border-box;
+  height: 103.48px; padding: 10.92px 14.92px 10.92px 15.39px;
+  background: var(--surface);
+}
+.row-list::after {
+  content: ""; position: absolute; left: 108.78px; right: 0; bottom: 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.media-list { flex: none; width: 78.52px; height: 81.69px; border-radius: 9.98px; }
+.media-list .ph-label { font-size: 9.98px; }
+.body-list { position: relative; flex: 1; min-width: 0; margin-left: 14.92px; }
+.body-list .title-row { display: flex; align-items: center; height: 22.78px; margin-top: 0.62px; padding-right: 13.99px; }
+.body-list .tag { height: 22.78px; padding: 0 8.68px; border-radius: 5.98px; margin-right: 8.48px; font-size: 12.48px; line-height: 22.78px; }
+.body-list .title { flex: 1; min-width: 0; font-size: 14.98px; font-weight: 700; line-height: 20.02px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-list .meta { height: 13.99px; margin-top: 6.81px; padding-right: 13.99px; font-size: 11.49px; }
+.body-list .ic-meta { width: 11.7px; height: 11.7px; margin: 0 10.61px 0 0.52px; }
+.body-list .ic-meta-pin { width: 9px; height: 11.7px; margin: 0 8.48px 0 0; }
+.body-list .meta-time { flex: none; margin-right: 17.52px; font-size: 11.49px; }
+.body-list .chips { margin-top: 8.42px; }
+.body-list .chip { height: 22.31px; padding: 0 7.18px; border-radius: 5.51px; margin-right: 6.5px; font-size: 11.49px; line-height: 22.31px; }
+.body-list .chevron { position: absolute; right: 1px; top: 20.18px; width: 5.3px; height: 10.61px; }
+.body-list .views { position: absolute; right: 3.12px; top: 52.62px; height: 22.31px; }
+.body-list .ic-eye { width: 17px; height: 10.61px; margin-right: 7.9px; }
+.body-list .views .num { font-size: 12.01px; }
+.body-list .cta { position: absolute; right: 0; top: 38.22px; width: 65.31px; height: 34.01px; border-radius: 17px; font-size: 15.5px; line-height: 34.01px; }
+
+/* ---------- 母版非 PRD 类别标签（通知、服务） ---------- */
+.tag-legacy { background: var(--tag-legacy); color: var(--brand-yellow-ink); }
+
+/* ---------- 骨架屏：几何与真实卡片一致，只替换内容（PRD 13.3） ---------- */
+.is-skeleton .media { background: var(--sk-media); }
+.sk-img-icon-l { width: 46.02px; height: 38.32px; }
+.sk-img-icon-s { width: 22px; height: 18.3px; }
+.sk-tag { background: var(--sk-tag); border-radius: 519.48px !important; }
+.sk-bar { border-radius: 519.48px; background: var(--sk-bar); }
+.sk-title { background: var(--sk-title); }
+.sk-chip { display: flex; align-items: center; justify-content: center; background: var(--sk-chip); }
+.sk-chip-bar { width: 58%; height: 36%; border-radius: 519.48px; background: var(--sk-chip-bar); }
+.sk-cta { background: var(--sk-cta); }
+
+.body-large .sk-tag { width: 52.52px; padding: 0; }
+.body-large .sk-title { width: 179.92px; height: 11.96px; }
+.body-large .sk-meta { width: 95px; height: 9.98px; }
+.body-large .sk-meta-2 { width: 127.92px; }
+.body-large .sk-chip { width: 56px; padding: 0; }
+.body-large .sk-views { width: 59.8px; height: 9px; }
+
+.body-showcase .sk-tag { width: 43.16px; padding: 0; }
+.body-showcase .sk-title { width: 69.99px; height: 9px; }
+.body-showcase .sk-meta { width: 60.01px; height: 7.49px; }
+.body-showcase .sk-meta-2 { width: 49.92px; }
+.body-showcase .sk-chip { width: 40.04px; padding: 0; }
+.body-showcase .sk-views { width: 30px; height: 7.02px; }
+
+.body-list .sk-tag { width: 41.91px; padding: 0; }
+.body-list .sk-title { width: 95px; height: 9.98px; }
+.body-list .sk-meta { height: 7.02px; }
+.body-list .sk-meta-time { width: 49.92px; margin-right: 17.52px; }
+.body-list .sk-meta-2 { width: 69.99px; }
+.body-list .sk-chip { width: 43.99px; padding: 0; }
+.body-list .sk-views { width: 30px; height: 7.02px; }

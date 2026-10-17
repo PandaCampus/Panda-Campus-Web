@@ -176,54 +176,12 @@ body.no-chrome .sim-statusbar { visibility: hidden; }
 /* 第 5 层：内容视口 */
 .viewport {
   position: absolute; left: 0; right: 0; top: 262px; bottom: 0;
-  overflow-y: auto; scrollbar-width: none; background: var(--feed-bg);
-  padding: 6.6px 12.5px 16px 13px;
+  overflow-y: auto; scrollbar-width: none; background: var(--surface-feed);
 }
-.card-large {
-  background: var(--white);
-  border: 1px solid #f3f4f6; border-radius: 15px;
-  box-shadow: 0 2px 12px rgba(20, 24, 40, .035);
-  overflow: hidden;
-}
-.card-media {
-  height: 237px; background: var(--ph);
-  display: flex; align-items: center; justify-content: center; text-align: center;
-}
+.viewport .ph-label { font-size: 11px; line-height: 16.5px; color: var(--placeholder-ink); font-weight: 500; text-align: center; white-space: pre-line; }
+.empty { padding-top: 83px; display: flex; flex-direction: column; align-items: center; font-size: 14.5px; color: var(--text-2); }
 .ph-label { font-size: 11px; line-height: 1.5; color: #8d92a1; font-weight: 500; }
 .avatar .ph-label { font-size: 9.5px; }
-.card-body { padding: 11px 8.8px 13.2px 13.3px; }
-.card-title { display: flex; align-items: center; gap: 15.3px; height: 28.7px; }
-.tag {
-  flex: none;
-  height: 28.7px; padding: 0 10.2px; border-radius: 8.6px;
-  font: 700 15.6px/28.7px var(--cn);
-  color: var(--white);
-}
-.tag-event { background: var(--tag-event); }
-.title-text { font: 800 20.2px/1.25 var(--cn); color: #050505; letter-spacing: .1px; }
-.meta {
-  display: flex; align-items: center; height: 24px; margin-top: 11px;
-  font: 400 15.6px/1 var(--cn); color: var(--text-2);
-}
-.meta + .meta { margin-top: 5.6px; }
-.meta .num { font: 400 17.2px/1 var(--num); }
-.ic-meta { width: 17px; height: 17px; flex: none; margin: 0 14.4px 0 1.9px; color: #4f5571; }
-.ic-meta-pin { width: 14px; height: 18px; margin: 0 15.9px 0 3.4px; }
-.chips { display: flex; gap: 7px; margin-top: 10.8px; }
-.chip {
-  height: 28.3px; padding: 0 10.2px; border-radius: 7px;
-  background: var(--fill);
-  font: 400 13px/28.3px var(--cn); color: #737891;
-}
-.card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 5.9px; height: 38.2px; }
-.views { display: flex; align-items: center; gap: 9.9px; margin-top: 3.6px; padding-left: .5px; color: var(--text-2); }
-.ic-eye { width: 21.3px; height: 13.6px; color: #4f5571; }
-.views .num { font: 400 16px/1 var(--num); }
-.cta {
-  width: 96.1px; height: 38.2px; border-radius: 19.1px;
-  background: var(--yellow);
-  font: 800 18px/1 var(--cn); color: #1e1600;
-}
 
 /* 胖达 / 我 占位 */
 .ph-page {

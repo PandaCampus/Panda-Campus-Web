@@ -22,6 +22,8 @@ Page({
     cards: [] as InformationCard[],
     loading: true,
     error: '',
+    /** 每档骨架数量：大概铺满一屏 */
+    skeletonSlots: { large: [1, 2], showcase: [1, 2, 3, 4], list: [1, 2, 3, 4, 5] },
   },
 
   onLoad(options: Record<string, string | undefined>) {
@@ -35,6 +37,10 @@ Page({
     // 调试入口：pages/campus/index?density=list（正式切换方式是双指缩放 / 筛选面板，后续实现）
     const density = options.density as FeedDensity | undefined;
     if (density && DENSITIES.includes(density)) campusStore.setState({ feedDensity: density });
+    // 调试入口：?skeleton=1 一直停在骨架屏；?skeleton=list 同时指定密度（开发者工具命令行不便传多个参数）
+    const sk = options.skeleton as FeedDensity | '1' | undefined;
+    if (sk && sk !== '1' && DENSITIES.includes(sk)) campusStore.setState({ feedDensity: sk });
+    this.holdSkeleton = !!sk;
 
     connectStore(
       this,
@@ -58,9 +64,12 @@ Page({
     return a.category !== b.category || a.query !== b.query || a.filters !== b.filters || a.sort !== b.sort;
   },
 
+  holdSkeleton: false,
+
   async loadCards() {
     const s = campusStore.getState();
     this.setData({ loading: true, error: '' });
+    if (this.holdSkeleton) return;
     try {
       const page = await listCards({ category: s.category, query: s.query, filters: s.filters, sort: s.sort });
       this.setData({ cards: page.items, loading: false });

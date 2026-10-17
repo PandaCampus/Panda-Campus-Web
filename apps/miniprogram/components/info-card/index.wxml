@@ -1,103 +1,116 @@
-<!-- 大图卡片（默认）：1 列，媒体在上 -->
-<view wx:if="{{density === 'large'}}" class="card card-large" bindtap="onOpen">
+<!-- ========== 大图卡片（默认）：1 列，媒体在上 ========== -->
+<view wx:if="{{density === 'large'}}" class="card card-large {{skeleton ? 'is-skeleton' : ''}}" bindtap="onOpen">
   <view class="media media-large" catchtap="onMedia">
-    <image wx:if="{{card.cover_url}}" class="media-img" src="{{card.cover_url}}" mode="aspectFill" />
+    <image wx:if="{{skeleton}}" class="sk-img-icon sk-img-icon-l" src="/assets/icons/sk-image.svg" />
+    <image wx:elif="{{card.cover_url}}" class="media-img" src="{{card.cover_url}}" mode="aspectFill" />
     <text wx:else class="ph-label">缺：卡片主图{{card.sample ? '\n示例卡 · 非真实数据' : ''}}</text>
   </view>
   <view class="body-large">
     <view class="title-row">
-      <text class="tag tag-{{card.type}}">{{card.label}}</text>
-      <text class="title">{{card.title}}</text>
+      <block wx:if="{{skeleton}}"><view class="tag sk-tag" /><view class="sk-bar sk-title" /></block>
+      <block wx:else><text class="tag {{tagClass}}">{{card.label}}</text><text class="title">{{card.title}}</text></block>
     </view>
-    <view wx:if="{{card.time_info}}" class="meta">
+    <view wx:if="{{skeleton || card.time_info}}" class="meta">
       <image class="ic-meta" src="/assets/icons/clock.svg" />
-      <text class="num">{{card.time_info.text}}</text>
+      <view wx:if="{{skeleton}}" class="sk-bar sk-meta" />
+      <text wx:else class="num">{{card.time_info.text}}</text>
     </view>
-    <view wx:if="{{card.place_text}}" class="meta meta-2">
+    <view wx:if="{{skeleton || card.place_text}}" class="meta meta-2">
       <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" />
-      <text>{{card.place_text}}</text>
+      <view wx:if="{{skeleton}}" class="sk-bar sk-meta sk-meta-2" />
+      <text wx:else>{{card.place_text}}</text>
     </view>
-    <view wx:if="{{chips.length}}" class="chips">
-      <text wx:for="{{chips}}" wx:key="*this" class="chip">{{item}}</text>
+    <view class="chips">
+      <block wx:if="{{skeleton}}"><view wx:for="{{[1,2,3]}}" wx:key="*this" class="chip sk-chip"><view class="sk-chip-bar" /></view></block>
+      <block wx:else><text wx:for="{{chips}}" wx:key="*this" class="chip">{{item}}</text></block>
     </view>
     <view class="foot">
       <view class="views">
-        <block wx:if="{{viewsText}}">
-          <image class="ic-eye" src="/assets/icons/eye.svg" />
-          <text class="num">{{viewsText}}</text>
-        </block>
+        <block wx:if="{{skeleton}}"><image class="ic-eye" src="/assets/icons/eye.svg" /><view class="sk-bar sk-views" /></block>
+        <block wx:elif="{{viewsText}}"><image class="ic-eye" src="/assets/icons/eye.svg" /><text class="num">{{viewsText}}</text></block>
       </view>
-      <view wx:if="{{cta}}" class="cta" hover-class="cta-pressed" catchtap="onAction">{{cta.label}}</view>
+      <view wx:if="{{skeleton}}" class="cta sk-cta" />
+      <view wx:elif="{{cta}}" class="cta" hover-class="cta-pressed" catchtap="onAction">{{cta.label}}</view>
     </view>
   </view>
 </view>
 
-<!-- 双列橱窗：2 列，媒体在上 -->
-<view wx:elif="{{density === 'showcase'}}" class="card card-showcase" bindtap="onOpen">
+<!-- ========== 双列橱窗：2 列，媒体在上 ========== -->
+<view wx:elif="{{density === 'showcase'}}" class="card card-showcase {{skeleton ? 'is-skeleton' : ''}}" bindtap="onOpen">
   <view class="media media-showcase" catchtap="onMedia">
-    <image wx:if="{{card.cover_url}}" class="media-img" src="{{card.cover_url}}" mode="aspectFill" />
+    <image wx:if="{{skeleton}}" class="sk-img-icon sk-img-icon-s" src="/assets/icons/sk-image.svg" />
+    <image wx:elif="{{card.cover_url}}" class="media-img" src="{{card.cover_url}}" mode="aspectFill" />
     <text wx:else class="ph-label">缺：卡片主图</text>
   </view>
   <view class="body-showcase">
     <view class="title-row">
-      <text class="tag tag-{{card.type}}">{{card.label}}</text>
-      <text class="title">{{card.title}}</text>
+      <block wx:if="{{skeleton}}"><view class="tag sk-tag" /><view class="sk-bar sk-title" /></block>
+      <block wx:else><text class="tag {{tagClass}}">{{card.label}}</text><text class="title">{{card.title}}</text></block>
     </view>
-    <view wx:if="{{card.time_info}}" class="meta">
+    <view wx:if="{{skeleton || card.time_info}}" class="meta">
       <image class="ic-meta" src="/assets/icons/clock.svg" />
-      <text class="num">{{card.time_info.text}}</text>
+      <view wx:if="{{skeleton}}" class="sk-bar sk-meta" />
+      <text wx:else class="num">{{card.time_info.text}}</text>
     </view>
-    <view wx:if="{{card.place_text}}" class="meta meta-2">
+    <view wx:if="{{skeleton || card.place_text}}" class="meta meta-2">
       <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" />
-      <text class="ellipsis">{{card.place_text}}</text>
+      <view wx:if="{{skeleton}}" class="sk-bar sk-meta sk-meta-2" />
+      <text wx:else class="ellipsis">{{card.place_text}}</text>
     </view>
-    <view wx:if="{{chips.length}}" class="chips">
-      <text wx:for="{{chips}}" wx:key="*this" class="chip">{{item}}</text>
+    <view class="chips">
+      <block wx:if="{{skeleton}}"><view wx:for="{{[1,2]}}" wx:key="*this" class="chip sk-chip"><view class="sk-chip-bar" /></view></block>
+      <block wx:else><text wx:for="{{chips}}" wx:key="*this" class="chip">{{item}}</text></block>
     </view>
     <view class="foot">
       <view class="views">
-        <block wx:if="{{viewsText}}">
-          <image class="ic-eye" src="/assets/icons/eye.svg" />
-          <text class="num">{{viewsText}}</text>
-        </block>
+        <block wx:if="{{skeleton}}"><image class="ic-eye" src="/assets/icons/eye.svg" /><view class="sk-bar sk-views" /></block>
+        <block wx:elif="{{viewsText}}"><image class="ic-eye" src="/assets/icons/eye.svg" /><text class="num">{{viewsText}}</text></block>
       </view>
-      <view wx:if="{{cta}}" class="cta" hover-class="cta-pressed" catchtap="onAction">{{cta.label}}</view>
+      <view wx:if="{{skeleton}}" class="cta sk-cta" />
+      <view wx:elif="{{cta}}" class="cta" hover-class="cta-pressed" catchtap="onAction">{{cta.label}}</view>
     </view>
   </view>
 </view>
 
-<!-- 紧凑列表：1 行 1 条，缩略图在左；仅「查看」时右端显示「>」 -->
-<view wx:else class="row-list" bindtap="onOpen">
+<!-- ========== 紧凑列表：缩略图在左；非高优先级行动只显示「>」 ========== -->
+<view wx:else class="row-list {{skeleton ? 'is-skeleton' : ''}}" bindtap="onOpen">
   <view class="media media-list" catchtap="onMedia">
-    <image wx:if="{{card.cover_url}}" class="media-img" src="{{card.cover_url}}" mode="aspectFill" />
+    <image wx:if="{{skeleton}}" class="sk-img-icon sk-img-icon-s" src="/assets/icons/sk-image.svg" />
+    <image wx:elif="{{card.cover_url}}" class="media-img" src="{{card.cover_url}}" mode="aspectFill" />
     <text wx:else class="ph-label">缺图</text>
   </view>
   <view class="body-list">
     <view class="title-row">
-      <text class="tag tag-{{card.type}}">{{card.label}}</text>
-      <text class="title">{{card.title}}</text>
+      <block wx:if="{{skeleton}}"><view class="tag sk-tag" /><view class="sk-bar sk-title" /></block>
+      <block wx:else><text class="tag {{tagClass}}">{{card.label}}</text><text class="title">{{card.title}}</text></block>
     </view>
     <view class="meta">
-      <block wx:if="{{card.time_info}}">
-        <image class="ic-meta" src="/assets/icons/clock.svg" />
-        <text class="num meta-time">{{card.time_info.text}}</text>
+      <block wx:if="{{skeleton}}">
+        <image class="ic-meta" src="/assets/icons/clock.svg" /><view class="sk-bar sk-meta sk-meta-time" />
+        <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" /><view class="sk-bar sk-meta sk-meta-2" />
       </block>
-      <block wx:if="{{card.place_text}}">
-        <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" />
-        <text class="ellipsis">{{card.place_text}}</text>
+      <block wx:else>
+        <block wx:if="{{card.time_info}}">
+          <image class="ic-meta" src="/assets/icons/clock.svg" />
+          <text class="num meta-time">{{card.time_info.text}}</text>
+        </block>
+        <block wx:if="{{card.place_text}}">
+          <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" />
+          <text class="ellipsis">{{card.place_text}}</text>
+        </block>
       </block>
     </view>
-    <view wx:if="{{chips.length}}" class="chips">
-      <text wx:for="{{chips}}" wx:key="*this" class="chip">{{item}}</text>
+    <view class="chips">
+      <block wx:if="{{skeleton}}"><view wx:for="{{[1,2]}}" wx:key="*this" class="chip sk-chip"><view class="sk-chip-bar" /></view></block>
+      <block wx:else><text wx:for="{{chips}}" wx:key="*this" class="chip">{{item}}</text></block>
     </view>
-    <block wx:if="{{cta && !ctaIsDetail}}">
-      <view class="cta" hover-class="cta-pressed" catchtap="onAction">{{cta.label}}</view>
-    </block>
+    <view wx:if="{{!skeleton && listShowsCta}}" class="cta" hover-class="cta-pressed" catchtap="onAction">{{cta.label}}</view>
     <block wx:else>
       <image class="chevron" src="/assets/icons/chevron.svg" />
-      <view wx:if="{{viewsText}}" class="views">
+      <view wx:if="{{skeleton || viewsText}}" class="views">
         <image class="ic-eye" src="/assets/icons/eye.svg" />
-        <text class="num">{{viewsText}}</text>
+        <view wx:if="{{skeleton}}" class="sk-bar sk-views" />
+        <text wx:else class="num">{{viewsText}}</text>
       </view>
     </block>
   </view>

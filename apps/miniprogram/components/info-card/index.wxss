@@ -53,7 +53,7 @@
 .body-showcase { padding: 9rpx 15rpx 13.1rpx 13.1rpx; }
 .body-showcase .title-row { display: flex; align-items: center; height: 48.1rpx; }
 .body-showcase .tag { height: 48.1rpx; padding: 0 16.5rpx; border-radius: 13.5rpx; margin-right: 17.1rpx; font-size: 25rpx; line-height: 48.1rpx; }
-.body-showcase .title { flex: 1; min-width: 0; font-size: 26rpx; line-height: 34.6rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-showcase .title { flex: 1; min-width: 0; font-size: 24.2rpx; font-weight: 700; letter-spacing: -0.6rpx; line-height: 34.6rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .body-showcase .meta { height: 30.8rpx; margin-top: 13.1rpx; font-size: 24rpx; }
 .body-showcase .meta-2 { margin-top: 11rpx; }
 .body-showcase .meta .num { font-size: 25rpx; }
@@ -82,8 +82,8 @@
 .body-list { position: relative; flex: 1; min-width: 0; margin-left: 28.7rpx; }
 .body-list .title-row { display: flex; align-items: center; height: 43.8rpx; margin-top: 1.2rpx; padding-right: 26.9rpx; }
 .body-list .tag { height: 43.8rpx; padding: 0 16.7rpx; border-radius: 11.5rpx; margin-right: 16.3rpx; font-size: 24rpx; line-height: 43.8rpx; }
-.body-list .title { flex: 1; min-width: 0; font-size: 28.8rpx; line-height: 38.5rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.body-list .meta { height: 26.9rpx; margin-top: 13.1rpx; padding-right: 134.6rpx; font-size: 22.1rpx; }
+.body-list .title { flex: 1; min-width: 0; font-size: 28.8rpx; font-weight: 700; line-height: 38.5rpx; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-list .meta { height: 26.9rpx; margin-top: 13.1rpx; padding-right: 26.9rpx; font-size: 22.1rpx; }
 .body-list .ic-meta { width: 22.5rpx; height: 22.5rpx; margin: 0 20.4rpx 0 1rpx; }
 .body-list .ic-meta-pin { width: 17.3rpx; height: 22.5rpx; margin: 0 16.3rpx 0 0; }
 .body-list .meta-time { flex: none; margin-right: 33.7rpx; font-size: 22.1rpx; }
@@ -94,3 +94,39 @@
 .body-list .ic-eye { width: 32.7rpx; height: 20.4rpx; margin-right: 15.2rpx; }
 .body-list .views .num { font-size: 23.1rpx; }
 .body-list .cta { position: absolute; right: 0; top: 73.5rpx; width: 125.6rpx; height: 65.4rpx; border-radius: 32.7rpx; font-size: 29.8rpx; line-height: 65.4rpx; }
+
+/* ---------- 母版非 PRD 类别标签（通知、服务） ---------- */
+.tag-legacy { background: var(--tag-legacy); color: var(--brand-yellow-ink); }
+
+/* ---------- 骨架屏：几何与真实卡片一致，只替换内容（PRD 13.3） ---------- */
+.is-skeleton .media { background: var(--sk-media); }
+.sk-img-icon-l { width: 88.5rpx; height: 73.7rpx; }
+.sk-img-icon-s { width: 42.3rpx; height: 35.2rpx; }
+.sk-tag { background: var(--sk-tag); border-radius: 999rpx !important; }
+.sk-bar { border-radius: 999rpx; background: var(--sk-bar); }
+.sk-title { background: var(--sk-title); }
+.sk-chip { display: flex; align-items: center; justify-content: center; background: var(--sk-chip); }
+.sk-chip-bar { width: 58%; height: 36%; border-radius: 999rpx; background: var(--sk-chip-bar); }
+.sk-cta { background: var(--sk-cta); }
+
+.body-large .sk-tag { width: 101rpx; padding: 0; }
+.body-large .sk-title { width: 346rpx; height: 23rpx; }
+.body-large .sk-meta { width: 182.7rpx; height: 19.2rpx; }
+.body-large .sk-meta-2 { width: 246rpx; }
+.body-large .sk-chip { width: 107.7rpx; padding: 0; }
+.body-large .sk-views { width: 115rpx; height: 17.3rpx; }
+
+.body-showcase .sk-tag { width: 83rpx; padding: 0; }
+.body-showcase .sk-title { width: 134.6rpx; height: 17.3rpx; }
+.body-showcase .sk-meta { width: 115.4rpx; height: 14.4rpx; }
+.body-showcase .sk-meta-2 { width: 96rpx; }
+.body-showcase .sk-chip { width: 77rpx; padding: 0; }
+.body-showcase .sk-views { width: 57.7rpx; height: 13.5rpx; }
+
+.body-list .sk-tag { width: 80.6rpx; padding: 0; }
+.body-list .sk-title { width: 182.7rpx; height: 19.2rpx; }
+.body-list .sk-meta { height: 13.5rpx; }
+.body-list .sk-meta-time { width: 96rpx; margin-right: 33.7rpx; }
+.body-list .sk-meta-2 { width: 134.6rpx; }
+.body-list .sk-chip { width: 84.6rpx; padding: 0; }
+.body-list .sk-views { width: 57.7rpx; height: 13.5rpx; }
