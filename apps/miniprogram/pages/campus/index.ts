@@ -2,6 +2,7 @@ import type { InformationCard } from '@schema';
 import type { AppGlobal, NavMetrics } from '../../app';
 import { listCards } from '../../api/cards';
 import { CATEGORIES, DEFAULT_FILTERS, campusStore, connectStore, type CampusState, type FeedDensity } from '../../store/campus';
+import { DENSITY_NAMES, pinchDirection, stepDensity, touchDistance } from '../../utils/density-zoom';
 import { ApiError } from '../../utils/request';
 
 const app = getApp<AppGlobal>();
@@ -27,6 +28,11 @@ Page({
     error: '',
     /** 每档骨架数量：大概铺满一屏 */
     skeletonSlots: { large: [1, 2], showcase: [1, 2, 3, 4], list: [1, 2, 3, 4, 5] },
+    /** 密度切换：动画重放用的 key、恢复位置用的锚点、状态提示 */
+    animKey: 0,
+    anchorId: '',
+    densityNames: DENSITY_NAMES,
+    hintVisible: false,
   },
 
   onLoad(options: Record<string, string | undefined>) {
@@ -37,7 +43,7 @@ Page({
       brandTop: nav.statusBar + nav.capsuleCenter - (BRAND_H * scale) / 2 + BRAND_OFFSET * scale,
     });
 
-    // 调试入口：pages/campus/index?density=list（正式切换方式是双指缩放 / 筛选面板，后续实现）
+    // 调试入口：pages/campus/index?density=list（正式切换方式是双指缩放，或筛选面板里的「浏览密度」）
     const density = options.density as FeedDensity | undefined;
     if (density && DENSITIES.includes(density)) campusStore.setState({ feedDensity: density });
     // 调试入口：?skeleton=1 一直停在骨架屏；?skeleton=list 同时指定密度（开发者工具命令行不便传多个参数）
@@ -61,6 +67,9 @@ Page({
       }),
       (state, prev) => {
         if (this.queryChanged(state, prev)) this.loadCards();
+        if (state.feedDensity !== prev.feedDensity) this.afterDensityChange();
+        // 从地图回到信息流：恢复进入地图前看到的那张卡（PRD 8.4）
+        if (prev.viewMode === 'map' && state.viewMode === 'feed') this.restoreAnchor();
       },
     );
     this.loadCards();
@@ -76,6 +85,78 @@ Page({
   },
 
   holdSkeleton: false,
+
+  // ---------- 三级语义缩放（PRD 5.2） ----------
+  pinchStart: 0,
+  pinchFired: false,
+  /** 当前视口顶部第一张卡的节点 id：只跟随用户自己的滚动更新，程序恢复位置引起的滚动不改写它 */
+  lastAnchor: '',
+  restoringUntil: 0,
+  scrollTimer: 0 as number,
+  hintTimer: 0 as number,
+
+  onFeedTouchStart(e: WechatMiniprogram.TouchEvent) {
+    if (e.touches.length === 2) {
+      this.pinchStart = touchDistance(e.touches[0], e.touches[1]);
+      this.pinchFired = false;
+    }
+  },
+
+  onFeedTouchMove(e: WechatMiniprogram.TouchEvent) {
+    if (e.touches.length !== 2 || !this.pinchStart || this.pinchFired) return;
+    const dir = pinchDirection(touchDistance(e.touches[0], e.touches[1]) / this.pinchStart);
+    if (!dir) return;
+    this.pinchFired = true; // 一次手势只切一档
+    const current = campusStore.getState().feedDensity;
+    const next = stepDensity(current, dir);
+    if (next === current) this.showHint(); // 已到头：只提示当前档位
+    else campusStore.setState({ feedDensity: next });
+  },
+
+  onFeedTouchEnd(e: WechatMiniprogram.TouchEvent) {
+    if (e.touches.length < 2) this.pinchStart = 0;
+  },
+
+  onFeedScroll() {
+    if (Date.now() < this.restoringUntil) return;
+    clearTimeout(this.scrollTimer);
+    this.scrollTimer = setTimeout(() => this.captureAnchor(), 120) as unknown as number;
+  },
+
+  /** 记下视口里第一张露出的卡，作为切换密度、往返地图时的位置锚点 */
+  captureAnchor() {
+    wx.createSelectorQuery()
+      .in(this)
+      .select('.viewport')
+      .boundingClientRect()
+      .selectAll('.feed-item')
+      .boundingClientRect()
+      .exec((res: [WechatMiniprogram.BoundingClientRectCallbackResult | null, WechatMiniprogram.BoundingClientRectCallbackResult[] | null]) => {
+        const [vp, items] = res;
+        if (!vp || !items) return;
+        const first = items.find((r) => r.bottom > vp.top + 8);
+        this.lastAnchor = first?.id ?? '';
+      });
+  },
+
+  afterDensityChange() {
+    // 新 key 让列表容器重建，从而重放进场动画；随后滚动到锚点卡片
+    this.setData({ animKey: this.data.animKey + 1 }, () => this.restoreAnchor());
+    this.showHint();
+  },
+
+  restoreAnchor() {
+    if (!this.lastAnchor) return;
+    this.restoringUntil = Date.now() + 500;
+    // 先清空再设置，保证同一个 id 也会重新触发滚动
+    this.setData({ anchorId: '' }, () => wx.nextTick(() => this.setData({ anchorId: this.lastAnchor })));
+  },
+
+  showHint() {
+    clearTimeout(this.hintTimer);
+    this.setData({ hintVisible: true });
+    this.hintTimer = setTimeout(() => this.setData({ hintVisible: false }), 900) as unknown as number;
+  },
 
   async loadCards() {
     const s = campusStore.getState();

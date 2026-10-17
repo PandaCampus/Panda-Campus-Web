@@ -61,19 +61,24 @@
   </view>
 
   <!-- 第 5 层：内容视口（地图态以后只替换这里） -->
-  <scroll-view wx:else class="viewport" scroll-y enhanced show-scrollbar="{{false}}">
+  <!-- 双指捏合在大卡 / 橱窗 / 列表之间切换（PRD 5.2） -->
+  <scroll-view wx:else class="viewport" scroll-y enhanced show-scrollbar="{{false}}"
+               scroll-into-view="{{anchorId}}" bindscroll="onFeedScroll"
+               bindtouchstart="onFeedTouchStart" bindtouchmove="onFeedTouchMove" bindtouchend="onFeedTouchEnd" bindtouchcancel="onFeedTouchEnd">
     <!-- 加载中：骨架屏（几何与当前密度一致） -->
     <view wx:if="{{loading}}" class="feed-{{density}}">
       <view wx:for="{{skeletonSlots[density]}}" wx:key="*this" class="feed-item">
         <info-card skeleton density="{{density}}" />
       </view>
     </view>
-    <view wx:elif="{{cards.length}}" class="feed-{{density}}">
-      <view wx:for="{{cards}}" wx:key="card_id" class="feed-item">
+    <block wx:elif="{{cards.length}}">
+    <view wx:for="{{[animKey]}}" wx:for-item="k" wx:key="*this" class="feed-{{density}} feed-anim">
+      <view wx:for="{{cards}}" wx:key="card_id" id="c-{{item.card_id}}" class="feed-item">
         <info-card card="{{item}}" density="{{density}}"
                    bind:open="onOpenCard" bind:media="onCardMedia" bind:action="onCardAction" />
       </view>
     </view>
+    </block>
     <view wx:elif="{{error}}" class="empty">
       <text>{{error}}</text>
       <view class="empty-btn" bindtap="onRetry">重试</view>
@@ -83,6 +88,11 @@
       <view class="empty-btn" bindtap="onClearFilters">清除筛选</view>
     </view>
   </scroll-view>
+
+  <!-- 密度切换的状态提示：短暂、克制 -->
+  <view class="dz-hint {{hintVisible ? 'is-on' : ''}}">
+    <text wx:for="{{densityNames}}" wx:key="key" class="dz-seg {{item.key === density ? 'is-cur' : ''}}">{{item.text}}</text>
+  </view>
 
   <filter-sheet visible="{{filterVisible}}" bind:close="onCloseFilter" />
 </view>

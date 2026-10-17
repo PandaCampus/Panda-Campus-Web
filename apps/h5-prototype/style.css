@@ -208,6 +208,20 @@ body.no-chrome .sim-statusbar { visibility: hidden; }
 .device .mv-body { overflow-y: auto; scrollbar-width: none; }
 .fs-chip, .cb-chip, .mv-back, .fs-btn, .mv-locate, .fs-close { cursor: pointer; }
 
+/* 三级语义缩放：进场动画与状态提示（与小程序 pages/campus 同规则） */
+.feed-anim { animation: density-in .2s ease-out; }
+@keyframes density-in { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
+.viewport { touch-action: pan-y; }
+.dz-hint {
+  position: absolute; left: 50%; top: 46%; z-index: 25;
+  display: flex; padding: 4px; border-radius: 999px; background: rgba(17, 17, 17, .78);
+  opacity: 0; transform: translate(-50%, -50%) scale(.96);
+  transition: opacity .2s ease, transform .2s ease; pointer-events: none;
+}
+.dz-hint.is-on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.dz-seg { padding: 0 14px; height: 28px; line-height: 28px; border-radius: 999px; font-size: 13px; color: rgba(255, 255, 255, .6); }
+.dz-seg.is-cur { background: var(--brand-yellow); color: var(--brand-yellow-ink); font-weight: 700; }
+
 /* 胖达 / 我 占位 */
 .ph-page {
   position: absolute; inset: 47px 0 0 0;
