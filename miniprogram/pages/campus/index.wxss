@@ -1,0 +1,146 @@
+/*
+ * 校园页样式。数值来自《卡片视图.png》实测（390 基准），按 390 宽 = 750rpx 换算；1px 细线保留 px。
+ * 顶部品牌行高度跟随微信胶囊动态计算，见 index.js。
+ */
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.header { flex: none; position: relative; background: #ffffff; }
+.pressed { background: #f2f3f5 !important; }
+
+/* 第 1 层 */
+.row-brand { position: relative; }
+.brand { position: absolute; left: 41.5rpx; width: 363.5rpx; height: 33.7rpx; }
+
+/* 第 2 层 */
+.row-entity { position: relative; height: 138.5rpx; }
+.avatar {
+  position: absolute; left: 35.2rpx; top: 15.6rpx;
+  width: 106.3rpx; height: 106.3rpx; border-radius: 50%;
+  background: #e4e6eb;
+  display: flex; align-items: center; justify-content: center;
+}
+.entity-name {
+  position: absolute; left: 163.8rpx; top: 42.3rpx;
+  max-width: 211.5rpx;
+  font-size: 36.5rpx; line-height: 51.2rpx; font-weight: 600; color: #111111;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.entity-actions { position: absolute; right: 32.3rpx; top: 31.7rpx; display: flex; }
+.hbtn {
+  position: relative; box-sizing: border-box;
+  height: 75.2rpx;
+  border: 1px solid #eceef2; border-radius: 21.2rpx;
+  background: #ffffff;
+  display: flex; align-items: center;
+  font-size: 26.9rpx; font-weight: 500; color: #1f1f21;
+}
+.hbtn-reach { width: 165.8rpx; padding-left: 20rpx; margin-right: 14.2rpx; }
+.hbtn-msg { width: 143.1rpx; padding-left: 21.9rpx; font-size: 25.8rpx; }
+.ic-nfc { position: relative; width: 45.4rpx; height: 47.3rpx; margin-right: 24.2rpx; flex: none; }
+.ic-nfc-frame { width: 45.4rpx; height: 47.3rpx; }
+.ic-nfc-text {
+  position: absolute; left: 0; right: 0; top: 15.4rpx;
+  text-align: center; font-size: 12.3rpx; line-height: 15.4rpx; font-weight: 600; color: #1d1d1f;
+}
+.ic-mail { width: 36.2rpx; height: 28.8rpx; margin-right: 18.3rpx; flex: none; }
+.unread-dot {
+  position: absolute; right: -3.8rpx; top: 1.2rpx;
+  width: 23.8rpx; height: 23.8rpx; border-radius: 50%;
+  background: #ffc402;
+}
+
+/* 第 3 层 */
+.row-tools { position: relative; height: 88.5rpx; }
+.search {
+  position: absolute; left: 27.7rpx; right: 227.7rpx; top: 9.6rpx;
+  height: 69.6rpx; border-radius: 34.8rpx;
+  background: #f3f4f6;
+  display: flex; align-items: center;
+  padding-left: 25.8rpx;
+}
+.ic-search { width: 32.7rpx; height: 32.7rpx; flex: none; margin-right: 14.4rpx; }
+.search-ph {
+  flex: 1; min-width: 0;
+  font-size: 26.2rpx; color: #8a8fa3;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.vbtn {
+  position: absolute; top: 2.9rpx; box-sizing: border-box;
+  width: 84.8rpx; height: 83.8rpx;
+  border: 1px solid #eceef2; border-radius: 21.2rpx;
+  background: #ffffff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font-size: 23.8rpx; line-height: 23.8rpx; font-weight: 600; color: #2e2e2e;
+}
+.vbtn-filter { right: 126.7rpx; }
+.vbtn-place { right: 26.7rpx; }
+.ic-filter { width: 29.8rpx; height: 26.2rpx; margin-bottom: 4.6rpx; }
+.ic-pin { width: 25rpx; height: 31.5rpx; margin-bottom: 4.6rpx; }
+
+/* 第 4 层 */
+.row-cats { position: relative; height: 94.2rpx; display: flex; padding-left: 41rpx; }
+.cat {
+  position: relative; flex: none;
+  width: 61.5rpx; height: 94.2rpx; margin-right: 40.4rpx; padding-top: 34.4rpx; box-sizing: border-box;
+  text-align: center; font-size: 28.1rpx; line-height: 28.1rpx; color: #5d6380;
+}
+.cat.is-active { color: #151515; font-weight: 700; }
+.cat.is-active::after {
+  content: ""; position: absolute; left: -1px; top: 71.9rpx;
+  width: 61rpx; height: 8.8rpx; border-radius: 4.4rpx;
+  background: #ffc402;
+}
+
+/* 第 5 层：内容视口 */
+.viewport { flex: 1; height: 0; background: #fafbfc; }
+.viewport-inner { padding: 12.7rpx 24rpx 30.8rpx 25rpx; }
+.card-large {
+  background: #ffffff;
+  border: 1px solid #f3f4f6; border-radius: 28.8rpx;
+  box-shadow: 0 3.8rpx 23.1rpx rgba(20, 24, 40, 0.035);
+  overflow: hidden;
+}
+.card-media {
+  height: 455.8rpx; background: #e4e6eb;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.ph-label { font-size: 21.2rpx; line-height: 31.7rpx; color: #8d92a1; font-weight: 500; }
+.avatar .ph-label { font-size: 18.3rpx; }
+.card-body { padding: 21.2rpx 16.9rpx 25.4rpx 25.6rpx; }
+.card-title { display: flex; align-items: center; height: 55.2rpx; }
+.tag {
+  flex: none;
+  height: 55.2rpx; padding: 0 19.6rpx; border-radius: 16.5rpx; margin-right: 29.4rpx;
+  font-size: 30rpx; line-height: 55.2rpx; font-weight: 700; color: #ffffff;
+}
+.tag-event { background: #25a96b; }
+.title-text { font-size: 38.8rpx; line-height: 48.1rpx; font-weight: 800; color: #050505; }
+.meta {
+  display: flex; align-items: center; height: 46.2rpx; margin-top: 21.2rpx;
+  font-size: 30rpx; color: #656a83;
+}
+.meta-2 { margin-top: 10.8rpx; }
+.meta .num { font-size: 33.1rpx; }
+.ic-meta { width: 32.7rpx; height: 32.7rpx; flex: none; margin: 0 27.7rpx 0 3.7rpx; }
+.ic-meta-pin { width: 26.9rpx; height: 34.6rpx; margin: 0 30.6rpx 0 6.5rpx; }
+.chips { display: flex; margin-top: 20.8rpx; }
+.chip {
+  height: 54.4rpx; padding: 0 19.6rpx; border-radius: 13.5rpx; margin-right: 13.5rpx;
+  background: #f3f4f6;
+  font-size: 25rpx; line-height: 54.4rpx; color: #737891;
+}
+.card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 11.3rpx; height: 73.5rpx; }
+.views { display: flex; align-items: center; margin-top: 6.9rpx; padding-left: 1rpx; color: #656a83; }
+.ic-eye { width: 41rpx; height: 26.2rpx; margin-right: 19rpx; }
+.views .num { font-size: 30.8rpx; }
+.cta {
+  width: 184.8rpx; height: 73.5rpx; border-radius: 36.7rpx;
+  background: #ffc402;
+  text-align: center; font-size: 34.6rpx; line-height: 73.5rpx; font-weight: 800; color: #1e1600;
+}
+.cta-pressed { opacity: 0.85; }

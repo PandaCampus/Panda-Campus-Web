@@ -1,0 +1,5 @@
+<!-- PRD 不设计「我」Tab 内部页面，仅留占位 -->
+<view class="ph-page">
+  <text>「我」Tab 内部页面不在本 PRD 范围</text>
+  <text class="ph-sub">占位 · 等待设计稿</text>
+</view>

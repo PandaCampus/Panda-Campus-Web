@@ -1,0 +1,7 @@
+/* 全局：中文用系统字体（iOS 为苹方），与设计稿一致 */
+page {
+  background: #ffffff;
+  color: #111111;
+  font-family: "PingFang SC", -apple-system, "Helvetica Neue", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}

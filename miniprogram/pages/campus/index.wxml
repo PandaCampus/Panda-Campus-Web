@@ -1,0 +1,92 @@
+<view class="page">
+  <!-- 顶部四层：默认不透明白底 -->
+  <view class="header">
+    <!-- 第 1 层：状态栏 + 品牌行（右侧为微信原生胶囊，由系统绘制） -->
+    <view class="row-brand" style="height: {{nav.navHeight}}px;">
+      <image class="brand" src="/assets/brand.svg" mode="aspectFit" style="top: {{brandTop}}px;" />
+    </view>
+
+    <!-- 第 2 层：主体与沟通 -->
+    <view class="row-entity">
+      <view class="avatar" hover-class="pressed">
+        <text class="ph-label">缺：头像</text>
+      </view>
+      <text class="entity-name">林同学</text>
+      <view class="entity-actions">
+        <view class="hbtn hbtn-reach" hover-class="pressed">
+          <view class="ic-nfc">
+            <image class="ic-nfc-frame" src="/assets/icons/nfc-frame.svg" />
+            <text class="ic-nfc-text">NFC</text>
+          </view>
+          <text>触达</text>
+        </view>
+        <view class="hbtn hbtn-msg" hover-class="pressed">
+          <image class="ic-mail" src="/assets/icons/mail.svg" />
+          <text>消息</text>
+          <view class="unread-dot" wx:if="{{hasUnread}}" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 第 3 层：搜索 + 筛选 / 地点 -->
+    <view class="row-tools">
+      <view class="search">
+        <image class="ic-search" src="/assets/icons/search.svg" />
+        <text class="search-ph">搜索就业、商家、社团、活动…</text>
+      </view>
+      <view class="vbtn vbtn-filter" hover-class="pressed">
+        <image class="ic-filter" src="/assets/icons/filter.svg" />
+        <text>筛选</text>
+      </view>
+      <view class="vbtn vbtn-place" hover-class="pressed">
+        <image class="ic-pin" src="/assets/icons/pin.svg" />
+        <text>地点</text>
+      </view>
+    </view>
+
+    <!-- 第 4 层：分类（PRD V1.2 锁定五项） -->
+    <view class="row-cats">
+      <view wx:for="{{cats}}" wx:key="*this"
+            class="cat {{index === activeCat ? 'is-active' : ''}}"
+            data-index="{{index}}" bindtap="onCat">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 第 5 层：内容视口（地图态以后只替换这里） -->
+  <scroll-view class="viewport" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="viewport-inner">
+      <!-- 示例卡：文案取自 UI 母版，不是数据库真实数据 -->
+      <view class="card-large" data-sample="true">
+        <view class="card-media">
+          <text class="ph-label">缺：卡片主图（体测跑道）\n示例卡 · 非真实数据</text>
+        </view>
+        <view class="card-body">
+          <view class="card-title">
+            <text class="tag tag-event">活动</text>
+            <text class="title-text">2026 体质测试须知</text>
+          </view>
+          <view class="meta">
+            <image class="ic-meta" src="/assets/icons/clock.svg" />
+            <text class="num">9.14 – 10.30</text>
+          </view>
+          <view class="meta meta-2">
+            <image class="ic-meta ic-meta-pin" src="/assets/icons/meta-pin.svg" />
+            <text>体育场 · 体测中心</text>
+          </view>
+          <view class="chips">
+            <text class="chip">预约制</text>
+            <text class="chip">身份证</text>
+            <text class="chip">不安排补测</text>
+          </view>
+          <view class="card-foot">
+            <view class="views">
+              <image class="ic-eye" src="/assets/icons/eye.svg" />
+              <text class="num">1.2k</text>
+            </view>
+            <view class="cta" hover-class="cta-pressed">查看</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

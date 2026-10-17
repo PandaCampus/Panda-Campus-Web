@@ -1,0 +1,22 @@
+{
+  "description": "PANDA CAMPUS 校园 Tab 小程序",
+  "miniprogramRoot": "miniprogram/",
+  "compileType": "miniprogram",
+  "appid": "wxe20ca5becd49789b",
+  "projectname": "Panda-Campus",
+  "libVersion": "3.17.4",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true,
+    "packNpmManually": false,
+    "ignoreUploadUnusedFiles": true
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
+}

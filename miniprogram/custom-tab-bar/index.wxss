@@ -1,0 +1,21 @@
+/* 实测：文字中心距栏顶 27、下划线 40×4.6 距栏顶 45；底部安全区另加 */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  height: 107.7rpx; padding: 0 19.2rpx env(safe-area-inset-bottom);
+  background: #ffffff;
+  border-top: 1px solid #f3f4f6;
+  box-shadow: 0 -11.5rpx 26.9rpx rgba(20, 24, 40, 0.025);
+  display: flex;
+}
+.tab {
+  position: relative; flex: 1;
+  height: 107.7rpx; padding-top: 35.2rpx; box-sizing: border-box;
+  text-align: center; font-size: 33.5rpx; line-height: 33.5rpx; font-weight: 500;
+  color: #444c67;
+}
+.tab.is-active { color: #0c0d0d; font-weight: 700; }
+.tab.is-active::after {
+  content: ""; position: absolute; left: 50%; top: 86.7rpx;
+  width: 77.3rpx; height: 8.8rpx; margin-left: -38.7rpx; border-radius: 4.4rpx;
+  background: #ffc402;
+}

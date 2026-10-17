@@ -1,0 +1,28 @@
+{
+  "pages": [
+    "pages/campus/index",
+    "pages/panda/index",
+    "pages/me/index"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#ffffff",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#444c67",
+    "selectedColor": "#0c0d0d",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/campus/index", "text": "校园" },
+      { "pagePath": "pages/panda/index", "text": "胖达" },
+      { "pagePath": "pages/me/index", "text": "我" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
