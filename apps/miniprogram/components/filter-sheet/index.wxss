@@ -38,7 +38,7 @@
 .fs-hint { display: block; height: 59.6rpx; line-height: 59.6rpx; font-size: 24rpx; color: var(--text-3); }
 .fs-footer {
   flex: none; display: flex; justify-content: space-between;
-  padding: 19.2rpx 38.5rpx calc(23.1rpx + env(safe-area-inset-bottom));
+  padding: 19.2rpx 38.5rpx 23.1rpx;
   border-top: 1px solid #f0f1f3;
 }
 .fs-btn { flex: 1; height: 75rpx; line-height: 75rpx; border-radius: 37.5rpx; text-align: center; font-size: 28.8rpx; font-weight: 700; box-sizing: border-box; }

@@ -202,7 +202,7 @@ body.no-chrome .sim-statusbar { visibility: hidden; }
 .viewport-map { background: transparent; overflow: visible; }
 .viewport[hidden] { display: none; }
 /* 筛选面板在 H5 里限制在手机画布内（小程序里是整页 fixed） */
-.device .fs-mask { position: absolute; z-index: 20; }
+.device .fs-mask { position: absolute; bottom: 60px; z-index: 20; } /* 与小程序一致：停在底部 Tab 上方 */
 .device .fs-sheet { max-height: 88%; }
 .device .fs-body { overflow-y: auto; scrollbar-width: none; }
 .device .mv-body { overflow-y: auto; scrollbar-width: none; }

@@ -234,7 +234,7 @@
 .fs-hint { display: block; height: 30.99px; line-height: 30.99px; font-size: 12.48px; color: var(--text-3); }
 .fs-footer {
   flex: none; display: flex; justify-content: space-between;
-  padding: 9.98px 20.02px calc(12.01px + env(safe-area-inset-bottom));
+  padding: 9.98px 20.02px 12.01px;
   border-top: 1px solid #f0f1f3;
 }
 .fs-btn { flex: 1; height: 39px; line-height: 39px; border-radius: 19.5px; text-align: center; font-size: 14.98px; font-weight: 700; box-sizing: border-box; }

@@ -178,14 +178,14 @@ Page({
     campusStore.setState({ category: CATEGORIES[e.currentTarget.dataset.index].key });
   },
 
+  // 不要调用 wx.hideTabBar / wx.showTabBar：项目用的是自定义 tabBar，这两个接口会把原生 tabBar 也显示出来，
+  // 底部出现两排 Tab。筛选面板停在自定义 Tab 上方，Tab 保持可见。
   onOpenFilter() {
     this.setData({ filterVisible: true });
-    wx.hideTabBar({ animation: false });
   },
 
   onCloseFilter() {
     this.setData({ filterVisible: false });
-    wx.showTabBar({ animation: false });
   },
 
   /** 「地点」是 feed ⇄ map 切换器；切回信息流时密度、筛选不变（PRD 8.4） */
