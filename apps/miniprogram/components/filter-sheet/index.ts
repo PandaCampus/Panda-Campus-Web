@@ -1,6 +1,7 @@
 /**
  * 全局筛选面板（C-05，外观照《筛选视图》，维度按 PRD 7.1）。
- * 打开时把 store 的当前条件复制成草稿；「确定筛选」才写回 store 并标记 filterApplied，「重置」只清草稿。
+ * 打开时把 store 的当前条件复制成草稿；「确定筛选」才写回 store，「重置」只清草稿。
+ * 浏览密度是显示偏好、不是筛选条件：点一下立即切换，不受「确定 / 重置 / 关闭」影响，也不触发条件串。
  * 跨维度 AND、同维度多选 OR 的真实查询由后端实现；这里只负责条件的选择和展示。
  */
 import type { CardType, CategoryKey } from '@schema';
@@ -12,7 +13,7 @@ import {
   TIME_OPTIONS,
   type FilterOption,
 } from '../../data/filter-options';
-import { CATEGORIES, DEFAULT_FILTERS, campusStore, type CampusState, type FeedDensity } from '../../store/campus';
+import { CATEGORIES, DEFAULT_FILTERS, campusStore, isDefaultQuery, type CampusState, type FeedDensity } from '../../store/campus';
 
 interface Draft {
   category: CategoryKey;
@@ -78,6 +79,7 @@ Component({
         draft.sort = value as Draft['sort'];
       } else if (dim === 'density') {
         draft.density = value as FeedDensity;
+        campusStore.setState({ feedDensity: draft.density }); // 立即生效（PRD 5.2 文字切换）
       } else {
         draft[dim] = value;
       }
@@ -90,12 +92,12 @@ Component({
 
     onConfirm() {
       const d = this.data.draft;
+      const filters = { time: d.time, place: d.place, attrs: d.attrs };
       campusStore.setState({
         category: d.category,
-        filters: { time: d.time, place: d.place, attrs: d.attrs },
+        filters,
         sort: d.sort,
-        feedDensity: d.density,
-        filterApplied: true,
+        filterApplied: !isDefaultQuery(d.category, filters, d.sort),
       });
       this.triggerEvent('close');
     },

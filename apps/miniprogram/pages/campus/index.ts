@@ -1,7 +1,7 @@
 import type { InformationCard } from '@schema';
 import type { AppGlobal, NavMetrics } from '../../app';
 import { listCards } from '../../api/cards';
-import { CATEGORIES, DEFAULT_FILTERS, campusStore, connectStore, type CampusState, type FeedDensity } from '../../store/campus';
+import { CATEGORIES, DEFAULT_FILTERS, campusStore, connectStore, sameFilters, type CampusState, type FeedDensity } from '../../store/campus';
 import { DENSITY_NAMES, pinchDirection, stepDensity, touchDistance } from '../../utils/density-zoom';
 import { ApiError } from '../../utils/request';
 
@@ -81,7 +81,8 @@ Page({
   },
 
   queryChanged(a: CampusState, b: CampusState): boolean {
-    return a.category !== b.category || a.query !== b.query || a.filters !== b.filters || a.sort !== b.sort;
+    // 按值比较：条件没变就不重新加载，避免闪骨架屏、丢失滚动位置
+    return a.category !== b.category || a.query !== b.query || !sameFilters(a.filters, b.filters) || a.sort !== b.sort;
   },
 
   holdSkeleton: false,
@@ -142,7 +143,8 @@ Page({
   afterDensityChange() {
     // 新 key 让列表容器重建，从而重放进场动画；随后滚动到锚点卡片
     this.setData({ animKey: this.data.animKey + 1 }, () => this.restoreAnchor());
-    this.showHint();
+    // 在筛选面板里切换时提示会被遮罩挡住，面板本身已高亮当前档位，不再弹提示
+    if (!this.data.filterVisible) this.showHint();
   },
 
   restoreAnchor() {

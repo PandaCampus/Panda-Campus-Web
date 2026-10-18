@@ -18,6 +18,7 @@ const CATEGORY_OPTIONS = [
 const DEFAULT_FILTERS = { time: 'any', place: 'any', attrs: [] };
 const holdSkeleton = params.get('skeleton') === '1';
 const optText = (list, v) => (list.find((o) => o.value === v) || {}).text || '';
+const sameFilters = (a, b) => a.time === b.time && a.place === b.place && a.attrs.length === b.attrs.length && a.attrs.every((v, i) => v === b.attrs[i]);
 
 const state = {
   viewMode: params.get('view') === 'map' ? 'map' : 'feed',
@@ -136,7 +137,7 @@ function renderFilter() {
             ? chips(chipRow('attrs', attrs, (v) => draft.attrs.includes(v)))
             : '<span class="fs-hint">选择具体类别后显示该类别的专属条件</span>')}
           ${section('排序方式', chips(chipRow('sort', OPT.sort, (v) => v === draft.sort)))}
-          ${section('浏览密度', chips(chipRow('density', OPT.density, (v) => v === draft.density)), true)}
+          ${section('浏览密度<span class="fs-sec-sub">点击立即切换，不计入筛选</span>', chips(chipRow('density', OPT.density, (v) => v === state.density)), true)}
         </div>
         <div class="fs-footer"><div class="fs-btn fs-reset" data-reset>重置</div><div class="fs-btn fs-confirm" data-confirm>确定筛选</div></div>
       </div>
@@ -152,7 +153,7 @@ function renderAll() {
 }
 
 function openFilter() {
-  draft = { category: state.category, time: state.filters.time, place: state.filters.place, attrs: [...state.filters.attrs], sort: state.sort, density: state.density };
+  draft = { category: state.category, time: state.filters.time, place: state.filters.place, attrs: [...state.filters.attrs], sort: state.sort };
   renderFilter();
 }
 
@@ -203,20 +204,17 @@ $('map').addEventListener('click', (e) => {
 $('filter-root').addEventListener('click', (e) => {
   const t = e.target;
   if (t.closest('[data-confirm]')) {
-    const nextDensity = draft.density;
-    Object.assign(state, {
-      category: draft.category,
-      filters: { time: draft.time, place: draft.place, attrs: draft.attrs },
-      sort: draft.sort,
-      filterApplied: true,
-    });
+    const filters = { time: draft.time, place: draft.place, attrs: draft.attrs };
+    const changed = draft.category !== state.category || draft.sort !== state.sort || !sameFilters(filters, state.filters);
+    const isDefault = draft.category === 'all' && draft.sort === 'recommended' && sameFilters(filters, DEFAULT_FILTERS);
+    Object.assign(state, { category: draft.category, filters, sort: draft.sort, filterApplied: !isDefault });
     draft = null;
-    renderAll();
-    if (nextDensity !== state.density) changeDensity(nextDensity);
+    if (changed) renderAll();
+    else { renderCond(); renderFilter(); } // 条件没变：不重绘列表，保留滚动位置
     return;
   }
   if (t.closest('[data-reset]')) {
-    draft = { category: 'all', ...DEFAULT_FILTERS, attrs: [], sort: 'recommended', density: draft.density };
+    draft = { category: 'all', ...DEFAULT_FILTERS, attrs: [], sort: 'recommended' };
     renderFilter();
     return;
   }
@@ -227,6 +225,12 @@ $('filter-root').addEventListener('click', (e) => {
       return;
     }
     const { dim, value } = chip.dataset;
+    if (dim === 'density') {
+      // 浏览密度是显示偏好：立即切换，不等「确定」，也不算筛选条件（PRD 5.2）
+      changeDensity(value, { quiet: true });
+      renderFilter();
+      return;
+    }
     if (dim === 'attrs') draft.attrs = draft.attrs.includes(value) ? draft.attrs.filter((v) => v !== value) : [...draft.attrs, value];
     else if (dim === 'category') {
       draft.category = value;
@@ -288,15 +292,15 @@ function showHint() {
   hintTimer = setTimeout(() => el.classList.remove('is-on'), 900);
 }
 
-function changeDensity(next) {
+function changeDensity(next, { quiet = false } = {}) {
   if (next === state.density) {
-    showHint(); // 已到头：只提示当前档位
+    if (!quiet) showHint(); // 已到头：只提示当前档位
     return;
   }
   state.density = next;
   renderFeed(true);
   restoreAnchor();
-  showHint();
+  if (!quiet) showHint(); // 在筛选面板里切换时面板本身已高亮当前档位
 }
 
 function stepDensity(dir) {

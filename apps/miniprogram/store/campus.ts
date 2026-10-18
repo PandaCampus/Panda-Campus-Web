@@ -17,6 +17,15 @@ export interface CampusFilters {
 
 export const DEFAULT_FILTERS: CampusFilters = { time: 'any', place: 'any', attrs: [] };
 
+export function sameFilters(a: CampusFilters, b: CampusFilters): boolean {
+  return a.time === b.time && a.place === b.place && a.attrs.length === b.attrs.length && a.attrs.every((v, i) => v === b.attrs[i]);
+}
+
+/** 类别、时间、地点、属性、排序都是默认值时，不算「应用了全局筛选」，不显示条件串 */
+export function isDefaultQuery(category: CategoryKey, filters: CampusFilters, sort: string): boolean {
+  return category === 'all' && sort === 'recommended' && sameFilters(filters, DEFAULT_FILTERS);
+}
+
 export interface CampusState {
   viewMode: ViewMode;
   feedDensity: FeedDensity;
