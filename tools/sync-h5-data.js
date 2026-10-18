@@ -17,10 +17,8 @@ function load(rel) {
 const { SAMPLE_CARDS } = load('apps/miniprogram/data/sample-cards.ts');
 const opts = load('apps/miniprogram/data/filter-options.ts');
 const FILTER_OPTIONS = {
-  time: opts.TIME_OPTIONS,
-  place: opts.PLACE_OPTIONS,
-  attrs: opts.ATTR_OPTIONS,
-  sort: opts.SORT_OPTIONS,
+  steps: opts.FILTER_STEPS,
+  defaults: opts.DIM_DEFAULTS,
   density: opts.DENSITY_OPTIONS,
 };
 const out = `// 自动生成：tools/sync-h5-data.js，请勿手改
@@ -28,4 +26,4 @@ window.SAMPLE_CARDS = ${JSON.stringify(SAMPLE_CARDS, null, 2)};
 window.FILTER_OPTIONS = ${JSON.stringify(FILTER_OPTIONS, null, 2)};
 `;
 fs.writeFileSync(path.join(root, 'apps/h5-prototype/data.js'), out);
-console.log('written', SAMPLE_CARDS.length, 'cards +', Object.keys(FILTER_OPTIONS).length, 'filter dimensions');
+console.log('written', SAMPLE_CARDS.length, 'cards +', FILTER_OPTIONS.steps.length, 'filter steps');

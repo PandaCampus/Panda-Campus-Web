@@ -52,7 +52,7 @@
     </view>
 
     <!-- 条件串：只在全局筛选应用后出现 -->
-    <condition-bar wx:if="{{filterApplied}}" bind:openfilter="onOpenFilter" />
+    <condition-bar wx:if="{{filterApplied}}" />
   </view>
 
   <!-- 地图态：只替换内容视口（PRD 8.1） -->

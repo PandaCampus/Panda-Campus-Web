@@ -1,9 +1,10 @@
 /**
- * 筛选维度与选项（PRD 7.1 / 7.2）：类别｜时间｜地点｜关键属性｜排序，外加无障碍用的浏览密度。
- * 关键属性按所选类别动态出现；「全部」时不显示，避免扁平标签墙。
- * 这些只是筛选界面的选项，真实筛选逻辑和各选项的数据覆盖要等后端接口（见需求板）。
+ * 全局筛选的七维筛选链（《全局筛选与条件串》）：分类 → 时间 → 地点 → 状态 → 条件 → 费用 → 排序，
+ * 外加无障碍用的浏览密度（PRD 5.2，不算筛选条件）。
+ * 分类、时间、地点、排序按 PRD 7.1；状态、条件、费用的选项是按 PRD 7.2 拟的草案，最终选项和数据覆盖待定（见需求板 R-10）。
+ * 这些只是筛选界面的选项，真实筛选逻辑由后端实现。
  */
-import type { CardType } from '@schema';
+import type { CategoryKey } from '@schema';
 
 export interface FilterOption {
   value: string;
@@ -11,6 +12,16 @@ export interface FilterOption {
   /** 不可用时给出原因（PRD 3.4：禁用态要解释原因） */
   disabledReason?: string;
 }
+
+export type FilterDim = 'category' | 'time' | 'place' | 'status' | 'condition' | 'cost' | 'sort';
+
+export const CATEGORY_OPTIONS: FilterOption[] = [
+  { value: 'all', text: '全部' },
+  { value: 'opportunity', text: '就业' },
+  { value: 'merchant', text: '商家' },
+  { value: 'identity', text: '社团' },
+  { value: 'event', text: '活动' },
+];
 
 export const TIME_OPTIONS: FilterOption[] = [
   { value: 'any', text: '不限' },
@@ -29,36 +40,32 @@ export const PLACE_OPTIONS: FilterOption[] = [
   { value: 'online', text: '线上' },
 ];
 
-export const ATTR_OPTIONS: Record<CardType, FilterOption[]> = {
-  opportunity: [
-    { value: 'internship', text: '实习' },
-    { value: 'part_time', text: '兼职' },
-    { value: 'full_time', text: '全职' },
-    { value: 'startup', text: '创业' },
-    { value: 'online', text: '线上' },
-    { value: 'offline', text: '线下' },
-    { value: 'no_experience', text: '无经验要求' },
-    { value: 'salary_public', text: '薪酬公开' },
-  ],
-  merchant: [
-    { value: 'food', text: '餐饮' },
-    { value: 'beauty', text: '美妆' },
-    { value: 'life_service', text: '生活服务' },
-    { value: 'consultable', text: '可咨询' },
-    { value: 'bookable', text: '可预约' },
-  ],
-  identity: [
-    { value: 'recruiting', text: '招新中' },
-    { value: 'open_contact', text: '开放联系' },
-  ],
-  event: [
-    { value: 'signup_open', text: '报名中' },
-    { value: 'ended', text: '已结束' },
-    { value: 'free', text: '免费' },
-    { value: 'online', text: '线上' },
-    { value: 'offline', text: '线下' },
-  ],
-};
+/** 状态：报名、招新、营业、截止等实时状态，必须由真实数据驱动（PRD 4.2） */
+export const STATUS_OPTIONS: FilterOption[] = [
+  { value: 'any', text: '不限' },
+  { value: 'open', text: '可参与' },
+  { value: 'recruiting', text: '招新中' },
+  { value: 'closing_soon', text: '即将截止' },
+  { value: 'ended', text: '已结束' },
+];
+
+/** 条件：参加资格、经验要求、参与方式（PRD 7.2） */
+export const CONDITION_OPTIONS: FilterOption[] = [
+  { value: 'any', text: '不限' },
+  { value: 'offline', text: '线下' },
+  { value: 'online', text: '线上' },
+  { value: 'freshman', text: '限新生' },
+  { value: 'no_experience', text: '无经验要求' },
+  { value: 'booking', text: '需预约' },
+];
+
+/** 费用：只在有真实报价 / 费用数据时有意义（PRD 7.1） */
+export const COST_OPTIONS: FilterOption[] = [
+  { value: 'any', text: '不限' },
+  { value: 'free', text: '免费' },
+  { value: 'paid', text: '收费' },
+  { value: 'student_discount', text: '学生优惠' },
+];
 
 export const SORT_OPTIONS: FilterOption[] = [
   { value: 'recommended', text: '推荐' },
@@ -72,6 +79,28 @@ export const DENSITY_OPTIONS: FilterOption[] = [
   { value: 'showcase', text: '橱窗' },
   { value: 'list', text: '列表' },
 ];
+
+/** 七维筛选链：顺序固定 */
+export const FILTER_STEPS: { dim: FilterDim; text: string; title: string; options: FilterOption[] }[] = [
+  { dim: 'category', text: '分类', title: '选择分类', options: CATEGORY_OPTIONS },
+  { dim: 'time', text: '时间', title: '选择时间', options: TIME_OPTIONS },
+  { dim: 'place', text: '地点', title: '选择地点', options: PLACE_OPTIONS },
+  { dim: 'status', text: '状态', title: '选择状态', options: STATUS_OPTIONS },
+  { dim: 'condition', text: '条件', title: '选择条件', options: CONDITION_OPTIONS },
+  { dim: 'cost', text: '费用', title: '选择费用', options: COST_OPTIONS },
+  { dim: 'sort', text: '排序', title: '选择排序', options: SORT_OPTIONS },
+];
+
+/** 每个维度的默认值（「不限」/「全部」/「推荐」） */
+export const DIM_DEFAULTS: Record<FilterDim, string> = {
+  category: 'all' satisfies CategoryKey,
+  time: 'any',
+  place: 'any',
+  status: 'any',
+  condition: 'any',
+  cost: 'any',
+  sort: 'recommended',
+};
 
 export function optionText(options: FilterOption[], value: string): string {
   return options.find((o) => o.value === value)?.text ?? '';

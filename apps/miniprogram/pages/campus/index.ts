@@ -53,7 +53,7 @@ Page({
     // 调试入口：?view=map 打开地图态；?filter=1 打开筛选面板；?applied=1 显示示例条件串
     if (options.view === 'map') campusStore.setState({ viewMode: 'map' });
     if (options.applied === '1') {
-      campusStore.setState({ category: 'event', filters: { time: 'this_week', place: 'campus', attrs: ['free'] }, filterApplied: true });
+      campusStore.setState({ category: 'event', filters: { ...DEFAULT_FILTERS, time: 'this_week', place: 'campus', status: 'open', cost: 'free' }, filterApplied: true });
     }
     if (options.filter === '1') setTimeout(() => this.onOpenFilter(), 300);
 
@@ -165,7 +165,8 @@ Page({
     this.setData({ loading: true, error: '' });
     if (this.holdSkeleton) return;
     try {
-      const filters = { time: [s.filters.time], place: [s.filters.place], attrs: s.filters.attrs };
+      const f = s.filters;
+      const filters = { time: [f.time], place: [f.place], status: [f.status], condition: [f.condition], cost: [f.cost] };
       const page = await listCards({ category: s.category, query: s.query, filters, sort: s.sort });
       this.setData({ cards: page.items, loading: false });
     } catch (e) {

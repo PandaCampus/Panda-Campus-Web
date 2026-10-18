@@ -232,166 +232,210 @@ window.SAMPLE_CARDS = [
   }
 ];
 window.FILTER_OPTIONS = {
-  "time": [
+  "steps": [
     {
-      "value": "any",
-      "text": "不限"
+      "dim": "category",
+      "text": "分类",
+      "title": "选择分类",
+      "options": [
+        {
+          "value": "all",
+          "text": "全部"
+        },
+        {
+          "value": "opportunity",
+          "text": "就业"
+        },
+        {
+          "value": "merchant",
+          "text": "商家"
+        },
+        {
+          "value": "identity",
+          "text": "社团"
+        },
+        {
+          "value": "event",
+          "text": "活动"
+        }
+      ]
     },
     {
-      "value": "today",
-      "text": "今天"
+      "dim": "time",
+      "text": "时间",
+      "title": "选择时间",
+      "options": [
+        {
+          "value": "any",
+          "text": "不限"
+        },
+        {
+          "value": "today",
+          "text": "今天"
+        },
+        {
+          "value": "tomorrow",
+          "text": "明天"
+        },
+        {
+          "value": "this_week",
+          "text": "本周"
+        },
+        {
+          "value": "weekend",
+          "text": "本周末"
+        },
+        {
+          "value": "custom",
+          "text": "自定义",
+          "disabledReason": "自定义时间开发中"
+        }
+      ]
     },
     {
-      "value": "tomorrow",
-      "text": "明天"
+      "dim": "place",
+      "text": "地点",
+      "title": "选择地点",
+      "options": [
+        {
+          "value": "any",
+          "text": "不限"
+        },
+        {
+          "value": "campus",
+          "text": "校内"
+        },
+        {
+          "value": "picked",
+          "text": "指定地点",
+          "disabledReason": "选择地点需要地点数据，开发中"
+        },
+        {
+          "value": "nearby",
+          "text": "附近",
+          "disabledReason": "需要定位授权和核验坐标"
+        },
+        {
+          "value": "online",
+          "text": "线上"
+        }
+      ]
     },
     {
-      "value": "this_week",
-      "text": "本周"
+      "dim": "status",
+      "text": "状态",
+      "title": "选择状态",
+      "options": [
+        {
+          "value": "any",
+          "text": "不限"
+        },
+        {
+          "value": "open",
+          "text": "可参与"
+        },
+        {
+          "value": "recruiting",
+          "text": "招新中"
+        },
+        {
+          "value": "closing_soon",
+          "text": "即将截止"
+        },
+        {
+          "value": "ended",
+          "text": "已结束"
+        }
+      ]
     },
     {
-      "value": "weekend",
-      "text": "本周末"
+      "dim": "condition",
+      "text": "条件",
+      "title": "选择条件",
+      "options": [
+        {
+          "value": "any",
+          "text": "不限"
+        },
+        {
+          "value": "offline",
+          "text": "线下"
+        },
+        {
+          "value": "online",
+          "text": "线上"
+        },
+        {
+          "value": "freshman",
+          "text": "限新生"
+        },
+        {
+          "value": "no_experience",
+          "text": "无经验要求"
+        },
+        {
+          "value": "booking",
+          "text": "需预约"
+        }
+      ]
     },
     {
-      "value": "custom",
-      "text": "自定义",
-      "disabledReason": "自定义时间开发中"
+      "dim": "cost",
+      "text": "费用",
+      "title": "选择费用",
+      "options": [
+        {
+          "value": "any",
+          "text": "不限"
+        },
+        {
+          "value": "free",
+          "text": "免费"
+        },
+        {
+          "value": "paid",
+          "text": "收费"
+        },
+        {
+          "value": "student_discount",
+          "text": "学生优惠"
+        }
+      ]
+    },
+    {
+      "dim": "sort",
+      "text": "排序",
+      "title": "选择排序",
+      "options": [
+        {
+          "value": "recommended",
+          "text": "推荐"
+        },
+        {
+          "value": "latest",
+          "text": "最新发布"
+        },
+        {
+          "value": "starting_soon",
+          "text": "即将开始"
+        },
+        {
+          "value": "nearest",
+          "text": "距离最近",
+          "disabledReason": "需要核验坐标后才能按距离排序"
+        }
+      ]
     }
   ],
-  "place": [
-    {
-      "value": "any",
-      "text": "不限"
-    },
-    {
-      "value": "campus",
-      "text": "校内"
-    },
-    {
-      "value": "picked",
-      "text": "指定地点",
-      "disabledReason": "选择地点需要地点数据，开发中"
-    },
-    {
-      "value": "nearby",
-      "text": "附近",
-      "disabledReason": "需要定位授权和核验坐标"
-    },
-    {
-      "value": "online",
-      "text": "线上"
-    }
-  ],
-  "attrs": {
-    "opportunity": [
-      {
-        "value": "internship",
-        "text": "实习"
-      },
-      {
-        "value": "part_time",
-        "text": "兼职"
-      },
-      {
-        "value": "full_time",
-        "text": "全职"
-      },
-      {
-        "value": "startup",
-        "text": "创业"
-      },
-      {
-        "value": "online",
-        "text": "线上"
-      },
-      {
-        "value": "offline",
-        "text": "线下"
-      },
-      {
-        "value": "no_experience",
-        "text": "无经验要求"
-      },
-      {
-        "value": "salary_public",
-        "text": "薪酬公开"
-      }
-    ],
-    "merchant": [
-      {
-        "value": "food",
-        "text": "餐饮"
-      },
-      {
-        "value": "beauty",
-        "text": "美妆"
-      },
-      {
-        "value": "life_service",
-        "text": "生活服务"
-      },
-      {
-        "value": "consultable",
-        "text": "可咨询"
-      },
-      {
-        "value": "bookable",
-        "text": "可预约"
-      }
-    ],
-    "identity": [
-      {
-        "value": "recruiting",
-        "text": "招新中"
-      },
-      {
-        "value": "open_contact",
-        "text": "开放联系"
-      }
-    ],
-    "event": [
-      {
-        "value": "signup_open",
-        "text": "报名中"
-      },
-      {
-        "value": "ended",
-        "text": "已结束"
-      },
-      {
-        "value": "free",
-        "text": "免费"
-      },
-      {
-        "value": "online",
-        "text": "线上"
-      },
-      {
-        "value": "offline",
-        "text": "线下"
-      }
-    ]
+  "defaults": {
+    "category": "all",
+    "time": "any",
+    "place": "any",
+    "status": "any",
+    "condition": "any",
+    "cost": "any",
+    "sort": "recommended"
   },
-  "sort": [
-    {
-      "value": "recommended",
-      "text": "推荐"
-    },
-    {
-      "value": "latest",
-      "text": "最新发布"
-    },
-    {
-      "value": "starting_soon",
-      "text": "即将开始"
-    },
-    {
-      "value": "nearest",
-      "text": "距离最近",
-      "disabledReason": "需要核验坐标后才能按距离排序"
-    }
-  ],
   "density": [
     {
       "value": "large",

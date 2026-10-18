@@ -1,6 +1,6 @@
 // H5 对照原型：状态与交互，规则与小程序 store/campus.ts、各组件一致，仅用于和 UI 母版对照。
 // 参数：?density=large|showcase|list  ?skeleton=1（停在骨架屏）  ?view=map（地图态）  ?sheet=half|expanded（地图抽屉）
-//       ?filter=1（打开筛选面板）  ?applied=1（示例条件串）  ?flat=1（截图模式）  ?h=781（截图高度）  ?chrome=0
+//       ?filter=1（打开全局筛选）  ?applied=1（示例条件串）  ?flat=1（截图模式）  ?h=781（截图高度）  ?chrome=0
 const params = new URLSearchParams(location.search);
 if (params.get('chrome') === '0') document.body.classList.add('no-chrome');
 if (params.get('flat') === '1') document.body.classList.add('flat');
@@ -11,14 +11,16 @@ const OPT = window.FILTER_OPTIONS;
 const DENSITIES = ['large', 'showcase', 'list'];
 const SKELETON_SLOTS = { large: 2, showcase: 4, list: 5 };
 const CATEGORY_KEYS = ['all', 'opportunity', 'merchant', 'identity', 'event'];
-const CATEGORY_OPTIONS = [
-  { value: 'all', text: '全部' }, { value: 'opportunity', text: '就业' }, { value: 'merchant', text: '商家' },
-  { value: 'identity', text: '社团' }, { value: 'event', text: '活动' },
-];
-const DEFAULT_FILTERS = { time: 'any', place: 'any', attrs: [] };
+const STEPS = OPT.steps; // 七维筛选链：分类 → 时间 → 地点 → 状态 → 条件 → 费用 → 排序
+const DIM_DEFAULTS = OPT.defaults;
+const FILTER_DIMS = ['time', 'place', 'status', 'condition', 'cost'];
+const DEFAULT_FILTERS = Object.fromEntries(FILTER_DIMS.map((d) => [d, DIM_DEFAULTS[d]]));
+const ADVANCE_DELAY = 180; // 选中后自动进入下一维的延迟
 const holdSkeleton = params.get('skeleton') === '1';
 const optText = (list, v) => (list.find((o) => o.value === v) || {}).text || '';
-const sameFilters = (a, b) => a.time === b.time && a.place === b.place && a.attrs.length === b.attrs.length && a.attrs.every((v, i) => v === b.attrs[i]);
+const sameFilters = (a, b) => FILTER_DIMS.every((d) => a[d] === b[d]);
+/** 某一维当前值：分类、排序在顶层，其余在 filters 里 */
+const valueOf = (src, dim) => (dim === 'category' ? src.category : dim === 'sort' ? src.sort : src.filters[dim]);
 
 const state = {
   viewMode: params.get('view') === 'map' ? 'map' : 'feed',
@@ -30,10 +32,12 @@ const state = {
   sheetState: ['half', 'expanded'].includes(params.get('sheet')) ? params.get('sheet') : 'peek',
 };
 if (params.get('applied') === '1') {
-  Object.assign(state, { category: 'event', filters: { time: 'this_week', place: 'campus', attrs: ['free'] }, filterApplied: true });
+  Object.assign(state, { category: 'event', filters: { ...DEFAULT_FILTERS, time: 'this_week', place: 'campus', status: 'open', cost: 'free' }, filterApplied: true });
 }
-/** 筛选面板草稿：打开时复制当前条件，「确定筛选」才写回 */
+/** 全局筛选草稿：打开时复制当前条件，点「搜索结果」才写回；step 是当前所在维度 */
 let draft = null;
+let step = 0;
+let advanceTimer;
 
 function renderFeed(animate = false) {
   const feed = $('feed');
@@ -55,17 +59,10 @@ function renderCond() {
     $('cond').innerHTML = '';
     return;
   }
-  const attrs = state.category === 'all' ? [] : OPT.attrs[state.category];
-  const at = state.filters.attrs.map((v) => optText(attrs, v)).filter(Boolean);
-  const chips = [
-    [state.category === 'all' ? '类别' : optText(CATEGORY_OPTIONS, state.category), state.category !== 'all'],
-    [state.filters.time === 'any' ? '时间' : optText(OPT.time, state.filters.time), state.filters.time !== 'any'],
-    [state.filters.place === 'any' ? '地点' : optText(OPT.place, state.filters.place), state.filters.place !== 'any'],
-    [at.length ? at[0] + (at.length > 1 ? ` +${at.length - 1}` : '') : '属性', at.length > 0],
-    [optText(OPT.sort, state.sort), state.sort !== 'recommended'],
-  ];
-  // H5 里点胶囊直接打开筛选面板；小程序里是同维度下拉菜单
-  const html = chips.map(([t, on]) => `<div class="cb-chip ${on ? 'is-active' : ''}" data-open-filter>${esc(t)}${icon('caret-down', 'cb-caret')}</div>`).join('');
+  // 已选的维度各一个下拉胶囊，排序始终显示（与小程序 condition-bar 一致）
+  const chips = STEPS.filter((st) => st.dim === 'sort' || valueOf(state, st.dim) !== DIM_DEFAULTS[st.dim]);
+  // H5 里点胶囊打开全局筛选并跳到该维度；小程序里是同维度下拉菜单
+  const html = chips.map((st) => `<div class="cb-chip" data-open-step="${STEPS.indexOf(st)}">${esc(optText(st.options, valueOf(state, st.dim)))}${icon('caret-down', 'cb-caret')}</div>`).join('');
   $('cond').innerHTML = `<div class="cb"><div class="cb-inner">${html}</div></div>`;
 }
 
@@ -107,39 +104,36 @@ function renderMap() {
     </div>`;
 }
 
-function chipRow(dim, options, isOn) {
-  return options.map((o) => {
-    const cls = `fs-chip ${isOn(o.value) ? 'is-on' : ''} ${o.disabledReason ? 'is-off' : ''}`;
-    const more = o.value === 'custom' ? icon('chevron-sm', 'fs-more') : '';
-    return `<div class="${cls}" data-dim="${dim}" data-value="${o.value}" data-reason="${esc(o.disabledReason || '')}">${esc(o.text)}${more}</div>`;
-  }).join('');
-}
-
 function renderFilter() {
   const root = $('filter-root');
   if (!draft) {
     root.innerHTML = '';
     return;
   }
-  const attrs = draft.category === 'all' ? [] : OPT.attrs[draft.category];
-  const section = (title, body, last) => `<div class="fs-section ${last ? 'fs-section-last' : ''}"><span class="fs-sec-title">${title}</span>${body}</div>`;
-  const chips = (inner) => `<div class="fs-chips">${inner}</div>`;
+  const cur = STEPS[step];
+  const stepChip = (st, i) => {
+    const set = draft[st.dim] !== DIM_DEFAULTS[st.dim] && i !== step;
+    const arrow = i === 0 || i === 4 ? '' : '<span class="fs-arrow">→</span>';
+    return `${arrow}<div class="fs-step ${i === step ? 'is-cur' : ''} ${set ? 'is-set' : ''}" data-step="${i}">${st.text}</div>`;
+  };
+  const opts = cur.options.map((o) => `<div class="fs-opt ${draft[cur.dim] === o.value ? 'is-on' : ''} ${o.disabledReason ? 'is-off' : ''}" data-value="${o.value}" data-reason="${esc(o.disabledReason || '')}">${esc(o.text)}</div>`).join('');
+  const dens = OPT.density.map((o) => `<div class="fs-seg ${state.density === o.value ? 'is-on' : ''}" data-density="${o.value}">${o.text}</div>`).join('');
   root.innerHTML = `
     <div class="fs-mask" data-mask>
       <div class="fs-sheet">
-        <div class="fs-handle"></div>
-        <div class="fs-header"><span class="fs-title">筛选条件</span><div class="fs-close" data-close>${icon('close', 'fs-close-ic')}</div></div>
-        <div class="fs-body">
-          ${section('类别', chips(chipRow('category', CATEGORY_OPTIONS, (v) => v === draft.category)))}
-          ${section('时间', chips(chipRow('time', OPT.time, (v) => v === draft.time)))}
-          ${section('地点', chips(chipRow('place', OPT.place, (v) => v === draft.place)))}
-          ${section('关键属性<span class="fs-sec-sub">可多选</span>', attrs.length
-            ? chips(chipRow('attrs', attrs, (v) => draft.attrs.includes(v)))
-            : '<span class="fs-hint">选择具体类别后显示该类别的专属条件</span>')}
-          ${section('排序方式', chips(chipRow('sort', OPT.sort, (v) => v === draft.sort)))}
-          ${section('浏览密度<span class="fs-sec-sub">点击立即切换，不计入筛选</span>', chips(chipRow('density', OPT.density, (v) => v === state.density)), true)}
+        <div class="fs-head">
+          <span class="fs-title">全局筛选</span>
+          <span class="fs-sub">按七个维度逐步筛选，快速定位你需要的内容</span>
+          <div class="fs-close" data-close>${icon('close', 'fs-close-ic')}</div>
         </div>
-        <div class="fs-footer"><div class="fs-btn fs-reset" data-reset>重置</div><div class="fs-btn fs-confirm" data-confirm>确定筛选</div></div>
+        <div class="fs-steps">
+          <div class="fs-step-row">${STEPS.slice(0, 4).map((st, i) => stepChip(st, i)).join('')}</div>
+          <div class="fs-step-row">${STEPS.slice(4).map((st, i) => stepChip(st, i + 4)).join('')}</div>
+        </div>
+        <span class="fs-sec-title">${cur.title}</span>
+        <div class="fs-grid">${opts}</div>
+        <div class="fs-density"><span class="fs-density-label">浏览密度</span>${dens}</div>
+        <div class="fs-footer"><div class="fs-btn fs-reset" data-reset>重置筛选</div><div class="fs-btn fs-search" data-search>搜索结果</div></div>
       </div>
     </div>`;
 }
@@ -152,8 +146,10 @@ function renderAll() {
   renderFilter();
 }
 
-function openFilter() {
-  draft = { category: state.category, time: state.filters.time, place: state.filters.place, attrs: [...state.filters.attrs], sort: state.sort };
+function openFilter(atStep = 0) {
+  clearTimeout(advanceTimer);
+  draft = { category: state.category, ...state.filters, sort: state.sort };
+  step = atStep;
   renderFilter();
 }
 
@@ -172,7 +168,7 @@ function toast(msg) {
 }
 
 // ---------- 事件 ----------
-$('btn-filter').addEventListener('click', openFilter);
+$('btn-filter').addEventListener('click', () => openFilter());
 $('btn-place').addEventListener('click', () => {
   state.viewMode = state.viewMode === 'map' ? 'feed' : 'map';
   renderAll();
@@ -181,12 +177,12 @@ $('btn-place').addEventListener('click', () => {
 document.querySelectorAll('.cat').forEach((cat, i) => {
   cat.addEventListener('click', () => {
     state.category = CATEGORY_KEYS[i];
-    state.filters.attrs = [];
     renderAll();
   });
 });
 $('cond').addEventListener('click', (e) => {
-  if (e.target.closest('[data-open-filter]')) openFilter();
+  const chip = e.target.closest('[data-open-step]');
+  if (chip) openFilter(Number(chip.dataset.openStep));
 });
 $('map').addEventListener('click', (e) => {
   if (e.target.closest('[data-back]')) {
@@ -203,8 +199,10 @@ $('map').addEventListener('click', (e) => {
 });
 $('filter-root').addEventListener('click', (e) => {
   const t = e.target;
-  if (t.closest('[data-confirm]')) {
-    const filters = { time: draft.time, place: draft.place, attrs: draft.attrs };
+  // 搜索结果：草稿写回，条件不全是默认值时显示条件串
+  if (t.closest('[data-search]')) {
+    clearTimeout(advanceTimer);
+    const filters = Object.fromEntries(FILTER_DIMS.map((d) => [d, draft[d]]));
     const changed = draft.category !== state.category || draft.sort !== state.sort || !sameFilters(filters, state.filters);
     const isDefault = draft.category === 'all' && draft.sort === 'recommended' && sameFilters(filters, DEFAULT_FILTERS);
     Object.assign(state, { category: draft.category, filters, sort: draft.sort, filterApplied: !isDefault });
@@ -214,33 +212,50 @@ $('filter-root').addEventListener('click', (e) => {
     return;
   }
   if (t.closest('[data-reset]')) {
-    draft = { category: 'all', ...DEFAULT_FILTERS, attrs: [], sort: 'recommended' };
+    clearTimeout(advanceTimer);
+    draft = { ...DIM_DEFAULTS };
+    step = 0;
     renderFilter();
     return;
   }
-  const chip = t.closest('.fs-chip');
-  if (chip) {
-    if (chip.dataset.reason) {
-      toast(chip.dataset.reason);
-      return;
-    }
-    const { dim, value } = chip.dataset;
-    if (dim === 'density') {
-      // 浏览密度是显示偏好：立即切换，不等「确定」，也不算筛选条件（PRD 5.2）
-      changeDensity(value, { quiet: true });
-      renderFilter();
-      return;
-    }
-    if (dim === 'attrs') draft.attrs = draft.attrs.includes(value) ? draft.attrs.filter((v) => v !== value) : [...draft.attrs, value];
-    else if (dim === 'category') {
-      draft.category = value;
-      draft.attrs = [];
-    } else draft[dim] = value;
+  const stepChip = t.closest('[data-step]');
+  if (stepChip) {
+    clearTimeout(advanceTimer);
+    step = Number(stepChip.dataset.step);
     renderFilter();
     return;
   }
-  // 点遮罩空白处或关闭按钮
+  const opt = t.closest('.fs-opt');
+  if (opt) {
+    if (opt.dataset.reason) {
+      toast(opt.dataset.reason);
+      return;
+    }
+    draft[STEPS[step].dim] = opt.dataset.value;
+    renderFilter();
+    // 逐维选择：选完自动进入下一维，最后一维（排序）停留
+    if (step < STEPS.length - 1) {
+      const from = step;
+      clearTimeout(advanceTimer);
+      advanceTimer = setTimeout(() => {
+        if (draft && step === from) {
+          step = from + 1;
+          renderFilter();
+        }
+      }, ADVANCE_DELAY);
+    }
+    return;
+  }
+  const seg = t.closest('[data-density]');
+  if (seg) {
+    // 浏览密度是显示偏好：立即切换，不计入筛选（PRD 5.2）
+    changeDensity(seg.dataset.density, { quiet: true });
+    renderFilter();
+    return;
+  }
+  // 点遮罩空白处或关闭按钮：放弃草稿
   if (t.closest('[data-close]') || t.hasAttribute('data-mask')) {
+    clearTimeout(advanceTimer);
     draft = null;
     renderFilter();
   }

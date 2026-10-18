@@ -1,35 +1,26 @@
 /**
- * 筛选条件串（《全局筛选与条件串》）：只在通过全局筛选应用条件后显示在分类栏下方。
- * 每个维度一个下拉胶囊，点开可在同一维度内切换；关键属性是多选，点开回到筛选面板。
+ * 筛选条件串（《全局筛选与条件串》）：只在全局筛选「搜索结果」之后显示在分类栏下方。
+ * 已选的维度各一个下拉胶囊（排序始终显示），点开可在同一维度内切换，不用重新打开筛选面板。
  */
-import type { CardType } from '@schema';
-import {
-  ATTR_OPTIONS,
-  PLACE_OPTIONS,
-  SORT_OPTIONS,
-  TIME_OPTIONS,
-  optionText,
-  type FilterOption,
-} from '../../data/filter-options';
-import { CATEGORIES, campusStore, connectStore, type CampusState } from '../../store/campus';
+import { DIM_DEFAULTS, FILTER_STEPS, optionText, type FilterDim, type FilterOption } from '../../data/filter-options';
+import { campusStore, connectStore, type CampusState } from '../../store/campus';
 
 interface Chip {
-  dim: 'category' | 'time' | 'place' | 'attrs' | 'sort';
+  dim: FilterDim;
   text: string;
-  active: boolean;
+}
+
+function valueOf(s: CampusState, dim: FilterDim): string {
+  if (dim === 'category') return s.category;
+  if (dim === 'sort') return s.sort;
+  return s.filters[dim];
 }
 
 function chipsOf(s: CampusState): Chip[] {
-  const cat = CATEGORIES.find((c) => c.key === s.category);
-  const attrs = s.category === 'all' ? [] : ATTR_OPTIONS[s.category as CardType];
-  const attrTexts = s.filters.attrs.map((v) => optionText(attrs, v)).filter(Boolean);
-  return [
-    { dim: 'category', text: s.category === 'all' ? '类别' : cat?.text ?? '类别', active: s.category !== 'all' },
-    { dim: 'time', text: s.filters.time === 'any' ? '时间' : optionText(TIME_OPTIONS, s.filters.time), active: s.filters.time !== 'any' },
-    { dim: 'place', text: s.filters.place === 'any' ? '地点' : optionText(PLACE_OPTIONS, s.filters.place), active: s.filters.place !== 'any' },
-    { dim: 'attrs', text: attrTexts.length ? attrTexts[0] + (attrTexts.length > 1 ? ` +${attrTexts.length - 1}` : '') : '属性', active: attrTexts.length > 0 },
-    { dim: 'sort', text: optionText(SORT_OPTIONS, s.sort), active: s.sort !== 'recommended' },
-  ];
+  return FILTER_STEPS.filter((step) => step.dim === 'sort' || valueOf(s, step.dim) !== DIM_DEFAULTS[step.dim]).map((step) => ({
+    dim: step.dim,
+    text: optionText(step.options, valueOf(s, step.dim)),
+  }));
 }
 
 /** 下拉里只列出可用选项（微信操作菜单最多 6 项） */
@@ -56,22 +47,17 @@ Component({
   },
 
   methods: {
-    onChip(e: WechatMiniprogram.TouchEvent<Record<string, never>, Record<string, never>, { dim: Chip['dim'] }>) {
+    onChip(e: WechatMiniprogram.TouchEvent<Record<string, never>, Record<string, never>, { dim: FilterDim }>) {
       const dim = e.currentTarget.dataset.dim;
-      if (dim === 'attrs') {
-        this.triggerEvent('openfilter');
-        return;
-      }
-      const options: FilterOption[] =
-        dim === 'category'
-          ? CATEGORIES.map((c) => ({ value: c.key, text: c.text }))
-          : usable(dim === 'time' ? TIME_OPTIONS : dim === 'place' ? PLACE_OPTIONS : SORT_OPTIONS);
+      const step = FILTER_STEPS.find((st) => st.dim === dim);
+      if (!step) return;
+      const options = usable(step.options);
       wx.showActionSheet({
         itemList: options.map((o) => o.text),
         success: ({ tapIndex }) => {
           const value = options[tapIndex].value;
           const s = campusStore.getState();
-          if (dim === 'category') campusStore.setState({ category: value as CampusState['category'], filters: { ...s.filters, attrs: [] } });
+          if (dim === 'category') campusStore.setState({ category: value as CampusState['category'] });
           else if (dim === 'sort') campusStore.setState({ sort: value as CampusState['sort'] });
           else campusStore.setState({ filters: { ...s.filters, [dim]: value } });
         },

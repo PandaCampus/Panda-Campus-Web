@@ -1,81 +1,47 @@
-<wxs module="u">
-  function has(list, v) { return list.indexOf(v) >= 0; }
-  module.exports = { has: has };
-</wxs>
-
+<!-- 全局筛选：七维筛选链，逐维选择，点「搜索结果」生效 -->
 <view wx:if="{{visible}}" class="fs-mask" bindtap="onClose" catchtouchmove="noop">
   <view class="fs-sheet" catchtap="noop">
-    <view class="fs-handle" />
-    <view class="fs-header">
-      <text class="fs-title">筛选条件</text>
-      <view class="fs-close" bindtap="onClose" hover-class="pressed"><image class="fs-close-ic" src="/assets/icons/close.svg" /></view>
+    <view class="fs-head">
+      <text class="fs-title">全局筛选</text>
+      <text class="fs-sub">按七个维度逐步筛选，快速定位你需要的内容</text>
+      <view class="fs-close" hover-class="pressed" bindtap="onClose"><image class="fs-close-ic" src="/assets/icons/close.svg" /></view>
     </view>
 
-    <scroll-view class="fs-body" scroll-y enhanced show-scrollbar="{{false}}">
-      <!-- 类别：与首页分类双向同步 -->
-      <view class="fs-section">
-        <text class="fs-sec-title">类别</text>
-        <view class="fs-chips">
-          <view wx:for="{{categoryOptions}}" wx:key="value"
-                class="fs-chip {{draft.category === item.value ? 'is-on' : ''}}"
-                data-dim="category" data-value="{{item.value}}" bindtap="onPick">{{item.text}}</view>
-        </view>
+    <!-- 筛选链：分类 → 时间 → 地点 → 状态 / 条件 → 费用 → 排序 -->
+    <view class="fs-steps">
+      <view class="fs-step-row">
+        <block wx:for="{{steps}}" wx:key="dim" wx:if="{{index < 4}}">
+          <text wx:if="{{index > 0}}" class="fs-arrow">→</text>
+          <view class="fs-step {{index === step ? 'is-cur' : ''}} {{item.set && index !== step ? 'is-set' : ''}}"
+                data-index="{{index}}" bindtap="onStep">{{item.text}}</view>
+        </block>
       </view>
+      <view class="fs-step-row">
+        <block wx:for="{{steps}}" wx:key="dim" wx:if="{{index >= 4}}">
+          <text wx:if="{{index > 4}}" class="fs-arrow">→</text>
+          <view class="fs-step {{index === step ? 'is-cur' : ''}} {{item.set && index !== step ? 'is-set' : ''}}"
+                data-index="{{index}}" bindtap="onStep">{{item.text}}</view>
+        </block>
+      </view>
+    </view>
 
-      <view class="fs-section">
-        <text class="fs-sec-title">时间</text>
-        <view class="fs-chips">
-          <view wx:for="{{timeOptions}}" wx:key="value"
-                class="fs-chip {{draft.time === item.value ? 'is-on' : ''}} {{item.disabledReason ? 'is-off' : ''}}"
-                data-dim="time" data-value="{{item.value}}" data-reason="{{item.disabledReason}}" bindtap="onPick">
-            {{item.text}}<image wx:if="{{item.value === 'custom'}}" class="fs-more" src="/assets/icons/chevron-sm.svg" />
-          </view>
-        </view>
-      </view>
+    <text class="fs-sec-title">{{title}}</text>
+    <view class="fs-grid">
+      <view wx:for="{{options}}" wx:key="value"
+            class="fs-opt {{draft[steps[step].dim] === item.value ? 'is-on' : ''}} {{item.disabledReason ? 'is-off' : ''}}"
+            data-value="{{item.value}}" data-reason="{{item.disabledReason}}" bindtap="onPick">{{item.text}}</view>
+    </view>
 
-      <view class="fs-section">
-        <text class="fs-sec-title">地点</text>
-        <view class="fs-chips">
-          <view wx:for="{{placeOptions}}" wx:key="value"
-                class="fs-chip {{draft.place === item.value ? 'is-on' : ''}} {{item.disabledReason ? 'is-off' : ''}}"
-                data-dim="place" data-value="{{item.value}}" data-reason="{{item.disabledReason}}" bindtap="onPick">{{item.text}}</view>
-        </view>
-      </view>
-
-      <!-- 关键属性：按类别动态出现（PRD 7.1 / 7.2） -->
-      <view class="fs-section">
-        <text class="fs-sec-title">关键属性<text class="fs-sec-sub">可多选</text></text>
-        <view wx:if="{{attrOptions.length}}" class="fs-chips">
-          <view wx:for="{{attrOptions}}" wx:key="value"
-                class="fs-chip {{u.has(draft.attrs, item.value) ? 'is-on' : ''}}"
-                data-dim="attrs" data-value="{{item.value}}" bindtap="onPick">{{item.text}}</view>
-        </view>
-        <text wx:else class="fs-hint">选择具体类别后显示该类别的专属条件</text>
-      </view>
-
-      <view class="fs-section">
-        <text class="fs-sec-title">排序方式</text>
-        <view class="fs-chips">
-          <view wx:for="{{sortOptions}}" wx:key="value"
-                class="fs-chip {{draft.sort === item.value ? 'is-on' : ''}} {{item.disabledReason ? 'is-off' : ''}}"
-                data-dim="sort" data-value="{{item.value}}" data-reason="{{item.disabledReason}}" bindtap="onPick">{{item.text}}</view>
-        </view>
-      </view>
-
-      <!-- 浏览密度：双指缩放的无障碍替代入口（PRD 5.2），不在顶部加视图按钮 -->
-      <view class="fs-section fs-section-last">
-        <text class="fs-sec-title">浏览密度<text class="fs-sec-sub">点击立即切换，不计入筛选</text></text>
-        <view class="fs-chips">
-          <view wx:for="{{densityOptions}}" wx:key="value"
-                class="fs-chip {{draft.density === item.value ? 'is-on' : ''}}"
-                data-dim="density" data-value="{{item.value}}" bindtap="onPick">{{item.text}}</view>
-        </view>
-      </view>
-    </scroll-view>
+    <!-- 浏览密度：双指缩放的无障碍替代入口（PRD 5.2），立即生效、不计入筛选 -->
+    <view class="fs-density">
+      <text class="fs-density-label">浏览密度</text>
+      <view wx:for="{{densityOptions}}" wx:key="value" class="fs-seg {{density === item.value ? 'is-on' : ''}}"
+            data-value="{{item.value}}" bindtap="onDensity">{{item.text}}</view>
+    </view>
 
     <view class="fs-footer">
-      <view class="fs-btn fs-reset" hover-class="pressed" bindtap="onReset">重置</view>
-      <view class="fs-btn fs-confirm" hover-class="cta-pressed" bindtap="onConfirm">确定筛选</view>
+      <view class="fs-btn fs-reset" hover-class="pressed" bindtap="onReset">重置筛选</view>
+      <view class="fs-btn fs-search" hover-class="cta-pressed" bindtap="onSearch">搜索结果</view>
     </view>
   </view>
 </view>

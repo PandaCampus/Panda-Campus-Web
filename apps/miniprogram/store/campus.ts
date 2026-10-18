@@ -8,20 +8,22 @@ export type ViewMode = 'feed' | 'map';
 export type FeedDensity = 'large' | 'showcase' | 'list';
 export type SheetState = 'closed' | 'peek' | 'half' | 'expanded';
 
-/** 全局筛选条件（PRD 7.1）；类别和首页分类共用 category 字段，双向同步 */
+/** 全局筛选条件（七维筛选链里除「分类」「排序」以外的五维）；分类和首页分类共用 category 字段，双向同步 */
 export interface CampusFilters {
   time: string;
   place: string;
-  attrs: string[];
+  status: string;
+  condition: string;
+  cost: string;
 }
 
-export const DEFAULT_FILTERS: CampusFilters = { time: 'any', place: 'any', attrs: [] };
+export const DEFAULT_FILTERS: CampusFilters = { time: 'any', place: 'any', status: 'any', condition: 'any', cost: 'any' };
 
 export function sameFilters(a: CampusFilters, b: CampusFilters): boolean {
-  return a.time === b.time && a.place === b.place && a.attrs.length === b.attrs.length && a.attrs.every((v, i) => v === b.attrs[i]);
+  return a.time === b.time && a.place === b.place && a.status === b.status && a.condition === b.condition && a.cost === b.cost;
 }
 
-/** 类别、时间、地点、属性、排序都是默认值时，不算「应用了全局筛选」，不显示条件串 */
+/** 七个维度都是默认值时，不算「应用了全局筛选」，不显示条件串 */
 export function isDefaultQuery(category: CategoryKey, filters: CampusFilters, sort: string): boolean {
   return category === 'all' && sort === 'recommended' && sameFilters(filters, DEFAULT_FILTERS);
 }

@@ -1,7 +1,7 @@
-<!-- 筛选条件串：每个维度一个下拉胶囊 -->
+<!-- 筛选条件串：已选维度各一个下拉胶囊，点开同维切换 -->
 <scroll-view class="cb" scroll-x enhanced show-scrollbar="{{false}}">
   <view class="cb-inner">
-    <view wx:for="{{chips}}" wx:key="dim" class="cb-chip {{item.active ? 'is-active' : ''}}"
+    <view wx:for="{{chips}}" wx:key="dim" class="cb-chip"
           hover-class="pressed" data-dim="{{item.dim}}" bindtap="onChip">
       <text>{{item.text}}</text>
       <image class="cb-caret" src="/assets/icons/caret-down.svg" />
