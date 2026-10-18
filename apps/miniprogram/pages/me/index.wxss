@@ -1,5 +1,7 @@
 .ph-page {
   height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: var(--tabbar-h);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   font-size: 28rpx; line-height: 1.8; color: #8d92a1;
   background: repeating-linear-gradient(45deg, #fafbfc 0 24rpx, #f4f5f7 24rpx 48rpx);

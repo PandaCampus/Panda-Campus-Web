@@ -117,7 +117,6 @@ function renderFilter() {
     return `${arrow}<div class="fs-step ${i === step ? 'is-cur' : ''} ${set ? 'is-set' : ''}" data-step="${i}">${st.text}</div>`;
   };
   const opts = cur.options.map((o) => `<div class="fs-opt ${draft[cur.dim] === o.value ? 'is-on' : ''} ${o.disabledReason ? 'is-off' : ''}" data-value="${o.value}" data-reason="${esc(o.disabledReason || '')}">${esc(o.text)}</div>`).join('');
-  const dens = OPT.density.map((o) => `<div class="fs-seg ${state.density === o.value ? 'is-on' : ''}" data-density="${o.value}">${o.text}</div>`).join('');
   root.innerHTML = `
     <div class="fs-mask" data-mask>
       <div class="fs-sheet">
@@ -132,7 +131,6 @@ function renderFilter() {
         </div>
         <span class="fs-sec-title">${cur.title}</span>
         <div class="fs-grid">${opts}</div>
-        <div class="fs-density"><span class="fs-density-label">浏览密度</span>${dens}</div>
         <div class="fs-footer"><div class="fs-btn fs-reset" data-reset>重置筛选</div><div class="fs-btn fs-search" data-search>搜索结果</div></div>
       </div>
     </div>`;
@@ -244,13 +242,6 @@ $('filter-root').addEventListener('click', (e) => {
         }
       }, ADVANCE_DELAY);
     }
-    return;
-  }
-  const seg = t.closest('[data-density]');
-  if (seg) {
-    // 浏览密度是显示偏好：立即切换，不计入筛选（PRD 5.2）
-    changeDensity(seg.dataset.density, { quiet: true });
-    renderFilter();
     return;
   }
   // 点遮罩空白处或关闭按钮：放弃草稿

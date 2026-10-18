@@ -1,6 +1,6 @@
 /* 全局筛选（七维筛选链），外观取自 design/ui/筛选机制-列表结果.webp（直接写 rpx，390 css px = 750rpx） */
 .fs-mask {
-  position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 100;
+  position: fixed; left: 0; right: 0; top: 0; bottom: var(--tabbar-h); z-index: 100;
   background: rgba(0, 0, 0, 0.45);
   display: flex; flex-direction: column; justify-content: flex-end;
 }
@@ -42,13 +42,6 @@
 .fs-opt.is-on { background: #fff7dc; border: 2.9rpx solid #f5c518; line-height: 71.2rpx; font-weight: 600; }
 .fs-opt.is-off { opacity: 0.45; }
 
-.fs-density { display: flex; align-items: center; margin-top: 3.8rpx; }
-.fs-density-label { margin-right: 7.7rpx; font-size: 24rpx; color: var(--text-3); }
-.fs-seg {
-  height: 50rpx; line-height: 50rpx; padding: 0 23.1rpx; margin-left: 15.4rpx; border-radius: 25rpx;
-  background: var(--surface-fill); font-size: 24rpx; color: #5a5f73;
-}
-.fs-seg.is-on { background: var(--brand-yellow); color: var(--brand-yellow-ink); font-weight: 700; }
 
 .fs-footer { display: flex; padding: 34.6rpx 0 30.8rpx; }
 .fs-btn { height: 98.1rpx; line-height: 98.1rpx; border-radius: 26.9rpx; text-align: center; font-size: 30.8rpx; font-weight: 700; }

@@ -206,7 +206,7 @@ body.no-chrome .sim-statusbar { visibility: hidden; }
 .device .fs-sheet { max-height: 88%; }
 .device .fs-body { overflow-y: auto; scrollbar-width: none; }
 .device .mv-body { overflow-y: auto; scrollbar-width: none; }
-.fs-opt, .fs-step, .fs-seg, .cb-chip, .mv-back, .fs-btn, .mv-locate, .fs-close, .mv-grip { cursor: pointer; }
+.fs-opt, .fs-step, .cb-chip, .mv-back, .fs-btn, .mv-locate, .fs-close, .mv-grip { cursor: pointer; }
 
 /* 三级语义缩放：进场动画与状态提示（与小程序 pages/campus 同规则） */
 .feed-anim { animation: density-in .2s ease-out; }

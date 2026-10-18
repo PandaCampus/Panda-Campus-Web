@@ -435,19 +435,5 @@ window.FILTER_OPTIONS = {
     "condition": "any",
     "cost": "any",
     "sort": "recommended"
-  },
-  "density": [
-    {
-      "value": "large",
-      "text": "卡片"
-    },
-    {
-      "value": "showcase",
-      "text": "橱窗"
-    },
-    {
-      "value": "list",
-      "text": "列表"
-    }
-  ]
+  }
 };

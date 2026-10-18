@@ -50,6 +50,9 @@ page {
   --sk-chip-bar: #d3d4d7;
   --sk-cta: #252525;
 
+  /* 底部自定义 Tab 的占位高度（56px + 安全区），与 custom-tab-bar 一致 */
+  --tabbar-h: calc(107.7rpx + env(safe-area-inset-bottom));
+
   --shadow-card: 0 3.8rpx 23rpx rgba(20, 24, 40, 0.035);
 
   background: var(--surface);

@@ -4,12 +4,11 @@
  * - 打开时把 store 的当前条件复制成草稿；在某一维选中选项后自动进入下一维，也可以点步骤胶囊跳到任意一维
  * - 「搜索结果」把草稿写回 store；条件不全是默认值时才显示条件串（PRD：仅全局筛选结果态显示）
  * - 「重置筛选」只清草稿并回到第一维；关闭面板放弃草稿
- * - 浏览密度是显示偏好、不是筛选条件：点一下立即切换（PRD 5.2）
  * 跨维度 AND 的真实查询由后端实现；这里只负责条件的选择和展示。
  */
 import type { CategoryKey } from '@schema';
-import { DENSITY_OPTIONS, DIM_DEFAULTS, FILTER_STEPS, type FilterDim, type FilterOption } from '../../data/filter-options';
-import { campusStore, isDefaultQuery, type CampusState, type FeedDensity } from '../../store/campus';
+import { DIM_DEFAULTS, FILTER_STEPS, type FilterDim, type FilterOption } from '../../data/filter-options';
+import { campusStore, isDefaultQuery, type CampusState } from '../../store/campus';
 
 type Draft = Record<FilterDim, string>;
 
@@ -47,8 +46,6 @@ Component({
     steps: stepViews(draftFromStore()),
     title: FILTER_STEPS[0].title,
     options: FILTER_STEPS[0].options as FilterOption[],
-    density: 'large' as FeedDensity,
-    densityOptions: DENSITY_OPTIONS,
   },
 
   observers: {
@@ -56,7 +53,6 @@ Component({
       if (!v) return;
       clearTimeout(advanceTimer);
       this.render(draftFromStore(), 0);
-      this.setData({ density: campusStore.getState().feedDensity });
     },
   },
 
@@ -85,12 +81,6 @@ Component({
         clearTimeout(advanceTimer);
         advanceTimer = setTimeout(() => this.render(this.data.draft, step + 1), ADVANCE_DELAY) as unknown as number;
       }
-    },
-
-    onDensity(e: WechatMiniprogram.TouchEvent<Record<string, never>, Record<string, never>, { value: FeedDensity }>) {
-      const density = e.currentTarget.dataset.value;
-      this.setData({ density });
-      campusStore.setState({ feedDensity: density }); // 立即生效，不计入筛选
     },
 
     onReset() {

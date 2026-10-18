@@ -32,13 +32,6 @@
             data-value="{{item.value}}" data-reason="{{item.disabledReason}}" bindtap="onPick">{{item.text}}</view>
     </view>
 
-    <!-- 浏览密度：双指缩放的无障碍替代入口（PRD 5.2），立即生效、不计入筛选 -->
-    <view class="fs-density">
-      <text class="fs-density-label">浏览密度</text>
-      <view wx:for="{{densityOptions}}" wx:key="value" class="fs-seg {{density === item.value ? 'is-on' : ''}}"
-            data-value="{{item.value}}" bindtap="onDensity">{{item.text}}</view>
-    </view>
-
     <view class="fs-footer">
       <view class="fs-btn fs-reset" hover-class="pressed" bindtap="onReset">重置筛选</view>
       <view class="fs-btn fs-search" hover-class="cta-pressed" bindtap="onSearch">搜索结果</view>

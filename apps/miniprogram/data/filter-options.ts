@@ -1,6 +1,5 @@
 /**
  * 全局筛选的七维筛选链（《全局筛选与条件串》）：分类 → 时间 → 地点 → 状态 → 条件 → 费用 → 排序，
- * 外加无障碍用的浏览密度（PRD 5.2，不算筛选条件）。
  * 分类、时间、地点、排序按 PRD 7.1；状态、条件、费用的选项是按 PRD 7.2 拟的草案，最终选项和数据覆盖待定（见需求板 R-10）。
  * 这些只是筛选界面的选项，真实筛选逻辑由后端实现。
  */
@@ -72,12 +71,6 @@ export const SORT_OPTIONS: FilterOption[] = [
   { value: 'latest', text: '最新发布' },
   { value: 'starting_soon', text: '即将开始' },
   { value: 'nearest', text: '距离最近', disabledReason: '需要核验坐标后才能按距离排序' },
-];
-
-export const DENSITY_OPTIONS: FilterOption[] = [
-  { value: 'large', text: '卡片' },
-  { value: 'showcase', text: '橱窗' },
-  { value: 'list', text: '列表' },
 ];
 
 /** 七维筛选链：顺序固定 */

@@ -19,7 +19,6 @@ const opts = load('apps/miniprogram/data/filter-options.ts');
 const FILTER_OPTIONS = {
   steps: opts.FILTER_STEPS,
   defaults: opts.DIM_DEFAULTS,
-  density: opts.DENSITY_OPTIONS,
 };
 const out = `// 自动生成：tools/sync-h5-data.js，请勿手改
 window.SAMPLE_CARDS = ${JSON.stringify(SAMPLE_CARDS, null, 2)};
